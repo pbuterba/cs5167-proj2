@@ -1,0 +1,35 @@
+:root {
+    /* Colors */
+    --color-baige: #F4F1DE;
+
+    --color-red: #E07A5F;
+
+    --color-navy: #3D405B;
+
+    --color-green: #81B29A;
+
+    --color-orange: #F2CC8F;
+    --color-orange-dark: #dfbc84;
+    --color-orange-darker: #cdaa79;
+    --color-orange-ripple: #f2cc8f71;
+
+    --color-surface: #ffffff;
+
+    --color-text: #414141;
+
+
+    /* Sizes */
+    --size-xs: 0.25rem;
+    --size-sm: 0.5rem;
+    --size-md: 1rem;
+    --size-lg: 2rem;
+    --size-xl: 4rem;
+
+    --border-radius-sm: 0.5rem;
+    --border-radius-md: 1rem;
+    --border-radius-lg: 2rem;
+
+    /* Fonts */
+    --font-family: 'inter', sans-serif;
+
+}
