@@ -2,21 +2,19 @@
 	import { mousePosition } from '$lib/utilities/stores.js';
 
 	let divy;
-	let divyX = 0;
-	let divyY = 0;
-	let dragging = false;
-	let divyTop = 100;
-	let divyLeft = 350;
+	let divyCursorPos = { x: 0, y: 0 };
+	let divyPos = { top: 100, left: 350 };
+	let draggingDivy = false;
 
-	$: if (dragging) {
-		divyTop = $mousePosition.y - divyY;
-		divyLeft = $mousePosition.x - divyX;
+	$: if (draggingDivy) {
+		divyPos.top = $mousePosition.y - divyCursorPos.y;
+		divyPos.left = $mousePosition.x - divyCursorPos.x;
 	}
 
 	function handleMouseDown(event) {
-		dragging = true;
-		divyX = event.offsetX;
-		divyY = event.offsetY;
+		draggingDivy = true;
+		divyCursorPos.x = event.offsetX;
+		divyCursorPos.y = event.offsetY;
 	}
 </script>
 
@@ -24,11 +22,11 @@
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
 	class="divy"
-	class:dragging
+	class:dragging={draggingDivy}
 	bind:this={divy}
 	on:mousedown={handleMouseDown}
-	on:mouseup={() => (dragging = false)}
-	style={`top: ${divyTop}px; left:${divyLeft}px`}
+	on:mouseup={() => (draggingDivy = false)}
+	style={`top: ${divyPos.top}px; left:${divyPos.left}px`}
 >
 	<slot />
 </div>
