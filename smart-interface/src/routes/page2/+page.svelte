@@ -1,12 +1,12 @@
 <script>
-	import ButtonTest from '$lib/components/ButtonTest/ButtonTest.svelte';
+	import Button from '$lib/components/Button/Button.svelte';
 	import ExampleComponent from '$lib/components/ExampleComponent/ExampleComponent.svelte';
 </script>
 
 <ExampleComponent>
 	<div class="content">DRAG ME</div>
 </ExampleComponent>
-<ButtonTest>Test Button</ButtonTest>
+<Button>Test Button</Button>
 
 <style>
 	.content {

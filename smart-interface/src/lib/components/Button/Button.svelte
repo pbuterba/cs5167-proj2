@@ -1,12 +1,16 @@
 <script>
-	let thingy;
+	export let href = '';
+	export let target = '';
+	export let type = 'default';
+
+	let button;
 
 	const onClick = (event) => {
 		const ripple = document.createElement('div');
 		ripple.classList.add('ripple');
-		thingy.appendChild(ripple);
+		button.appendChild(ripple);
 
-		const rect = thingy.getBoundingClientRect();
+		const rect = button.getBoundingClientRect();
 
 		const x = event.clientX - rect.left;
 		const y = event.clientY - rect.top;
@@ -23,48 +27,71 @@
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<div class="thingy" on:click={onClick} bind:this={thingy}>
+<a
+	class="button"
+	class:inverse={type === 'inverse'}
+	{href}
+	{target}
+	on:click={onClick}
+	bind:this={button}
+>
 	<span class="label">
 		<slot />
 	</span>
-</div>
+</a>
 
 <style>
 	@import '../../../variables.css';
-	.thingy {
-		padding: var(--size-sm) var(--size-md);
-		border-radius: var(--border-radius-sm);
-		background-color: var(--color-orange);
-		outline: none;
-		cursor: pointer;
+	.button {
+		display: flex;
+		justify-content: center;
+		align-items: center;
 		position: relative;
 		overflow: hidden;
+		padding: var(--size-sm) var(--size-md);
+		border-radius: var(--border-radius-sm);
+		background-color: var(--color-green);
+		cursor: pointer;
 		width: fit-content;
 		user-select: none;
-		min-width: 25px;
-		min-height: 25px;
 		transition: all 0.3s ease;
+		text-decoration: none;
 	}
 
-	.thingy:hover {
-		background-color: var(--color-orange-darker);
+	.button:hover {
+		background-color: var(--color-green-darker);
+	}
+
+	.inverse {
+		background-color: transparent;
+		outline: 3px solid var(--color-green);
+	}
+
+	.inverse:hover {
+		background-color: var(--color-green-transparent);
 	}
 
 	.label {
-		color: var(--color-text);
-		font-size: 125%;
-		font-weight: 600;
+		color: white;
+		font-size: 20px;
+		font-weight: 500;
+		z-index: 2;
+	}
+
+	.inverse .label {
+		color: var(--color-green);
 	}
 
 	:global(.ripple) {
 		position: absolute;
 		border-radius: 50%;
-		background-color: var(--color-orange-ripple);
+		background-color: var(--color-green);
 		width: 100px;
 		height: 100px;
 		transform: translate(-50%, -50%) scale(0);
 		animation: ripple 1s forwards;
 		pointer-events: none;
+		z-index: 1;
 	}
 
 	@keyframes ripple {
