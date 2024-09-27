@@ -28,7 +28,7 @@ jobs:
 
       - name: build
         env:
-          BASE_PATH: '/smart-interface'
+          BASE_PATH: '/cs5167-proj2'
         run: |
           npm run build
 
