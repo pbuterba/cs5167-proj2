@@ -13,14 +13,8 @@ npm run dev
 npm run dev -- --open
 ```
 
-## Building
+## Smart Interface Ideas
+**Dresser / Closet** - You can add clothes so the dresser knows what is available. You can pair clothing pieces together to form outfits. The dresser knows what clothes are clean and what outfits can be created based on what is available. Outfits can be categorized by weather, vibe, etc. so the dresser can suggest outfits based on those inputs. 
 
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+## Figma
+[Figma File](https://www.figma.com/design/xytpAF3YFImwZ1gxUl7dDM/UIProject2?node-id=0-1&t=chfs0086KCFMxfgE-1)
