@@ -1,11 +1,14 @@
 <script>
+	import { createEventDispatcher } from 'svelte';
 	export let href = '';
 	export let target = '';
 	export let type = 'default';
 
 	let button;
+	let dispatch = createEventDispatcher();
 
 	const onClick = (event) => {
+		dispatch('click', event);
 		const ripple = document.createElement('div');
 		ripple.classList.add('ripple');
 		button.appendChild(ripple);
@@ -30,6 +33,7 @@
 <a
 	class="button"
 	class:inverse={type === 'inverse'}
+	class:empty={type === 'empty'}
 	{href}
 	{target}
 	on:click={onClick}
@@ -56,6 +60,7 @@
 		user-select: none;
 		transition: all 0.3s ease;
 		text-decoration: none;
+		border: 3px solid transparent;
 	}
 
 	.button:hover {
@@ -64,10 +69,19 @@
 
 	.inverse {
 		background-color: transparent;
-		outline: 3px solid var(--color-green);
+		border: 3px solid var(--color-green);
 	}
 
 	.inverse:hover {
+		background-color: var(--color-green-transparent);
+	}
+
+	.empty {
+		background-color: transparent;
+		border: 3px solid transparent;
+	}
+
+	.empty:hover {
 		background-color: var(--color-green-transparent);
 	}
 
@@ -76,9 +90,16 @@
 		font-size: 20px;
 		font-weight: 500;
 		z-index: 2;
+		height: 24px;
+		display: flex;
+		align-items: center;
 	}
 
 	.inverse .label {
+		color: var(--color-green);
+	}
+
+	.empty .label {
 		color: var(--color-green);
 	}
 
