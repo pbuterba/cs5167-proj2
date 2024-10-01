@@ -41,21 +41,26 @@
 		font-size: 120%;
 		padding: 0 30px;
 		height: 50px;
-		border-radius: var(--border-radius-sm);
-		outline: 3px solid var(--color-edge-darker);
+		border-radius: var(--size-xs);
+		outline: 1px solid var(--color-edge-darker);
 		background: transparent;
-		transition: 0.1s ease;
+		transition: 0.1s ease-in-out;
 		z-index: 1111;
+	}
+
+	input:hover {
+		outline: 3px solid var(--color-edge-darker);
 	}
 
 	.labelline {
 		position: absolute;
 		font-size: 120%;
 		color: var(--color-text-lighter);
-		padding: 0 30px;
+		padding: 0 8px;
 		background-color: var(--color-surface);
-		transition: 0.2s ease;
+		transition: 0.1s ease-in-out;
 		width: fit-content;
+		margin-left: 20px;
 	}
 
 	input:focus + .labelline,
@@ -63,8 +68,8 @@
 		height: 25px;
 		line-height: 25px;
 		transform: translate(0, -15px) scale(0.8);
+		padding: 0 8px;
 		z-index: 1111;
-		padding: 0 22px;
 	}
 
 	input:focus + .labelline {
