@@ -1,10 +1,9 @@
-# cs5167-proj2
+# Smart Dresser
 Project #2 for CS 5167 for Preston Buterbaugh, Madilyn Coulson, Chloe Belletti, and Nate Louder
 
 ## Setup
 After cloning the repo, do the following:
 ```bash
-cd smart-interface
 npm install
 
 --- to run the app ---
