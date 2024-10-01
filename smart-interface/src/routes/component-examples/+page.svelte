@@ -14,6 +14,7 @@
 <div class="components">
 	<TextInput label="This is an Input" required on:change={handleChange} />
 	<Button on:click={handleClick}>This is A Button</Button>
+	Click the Button to see a flyout
 	<Flyout id="flyout1" side="right">
 		<div slot="flyout-body"><img class="shrek" src="/shrek.png" alt="shrek" />Shrek says hi</div>
 		<div slot="flyout-footer" class="flyout-actions">
