@@ -1,18 +1,43 @@
 <script>
 	import Button from '$lib/components/Button/Button.svelte';
-	import ExampleComponent from '$lib/components/ExampleComponent/ExampleComponent.svelte';
+	import Flyout from '$lib/components/Flyout/Flyout.svelte';
+	import TextInput from '$lib/components/TextInput/TextInput.svelte';
+	import { toggle } from '$lib/utilities/stores.js';
+	function handleChange(event) {
+		console.log(event.detail.value);
+	}
+	function handleClick() {
+		toggle('flyout1');
+	}
 </script>
 
-<ExampleComponent>
-	<div class="content">DRAG ME</div>
-</ExampleComponent>
-<Button>Test Button</Button>
+<div class="components">
+	<TextInput label="This is an Input" required on:change={handleChange} />
+	<Button on:click={handleClick}>This is A Button</Button>
+	<Flyout id="flyout1" side="right">
+		<div slot="flyout-body"><img class="shrek" src="/shrek.png" alt="shrek" />Shrek says hi</div>
+		<div slot="flyout-footer" class="flyout-actions">
+			<Button type="inverse">Cancel</Button><Button>Save</Button>
+		</div>
+	</Flyout>
+</div>
 
 <style>
-	.content {
-		color: white;
-		font-size: 135%;
-		font-weight: 600;
-		user-select: none;
+	.components {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		gap: 16px;
+	}
+
+	.flyout-actions {
+		display: flex;
+		justify-content: flex-end;
+		gap: 8px;
+		width: 100%;
+	}
+
+	.shrek {
+		width: 100%;
 	}
 </style>

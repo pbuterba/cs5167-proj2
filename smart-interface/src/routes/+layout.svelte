@@ -13,6 +13,8 @@
 	}
 	main {
 		font-family: 'Inter', sans-serif;
-		padding: 2rem;
+		padding: 32px 0;
+		margin: 0 auto;
+		max-width: 1800px;
 	}
 </style>
