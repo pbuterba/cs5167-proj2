@@ -52,7 +52,7 @@
 		align-items: center;
 		position: relative;
 		overflow: hidden;
-		padding: var(--size-sm) var(--size-md);
+		padding: var(--size-xs) var(--size-sm);
 		border-radius: var(--border-radius-sm);
 		background-color: var(--color-green);
 		cursor: pointer;
@@ -60,7 +60,7 @@
 		user-select: none;
 		transition: all 0.3s ease;
 		text-decoration: none;
-		border: 3px solid transparent;
+		border: 2px solid transparent;
 	}
 
 	.button:hover {
@@ -69,7 +69,7 @@
 
 	.inverse {
 		background-color: transparent;
-		border: 3px solid var(--color-green);
+		border: 2px solid var(--color-green);
 	}
 
 	.inverse:hover {
@@ -78,7 +78,7 @@
 
 	.empty {
 		background-color: transparent;
-		border: 3px solid transparent;
+		border: 2px solid transparent;
 	}
 
 	.empty:hover {
@@ -87,7 +87,7 @@
 
 	.label {
 		color: white;
-		font-size: 20px;
+		font-size: 16px;
 		font-weight: 500;
 		z-index: 2;
 		height: 24px;

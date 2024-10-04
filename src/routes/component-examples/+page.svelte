@@ -1,5 +1,6 @@
 <script>
 	import Button from '$lib/components/Button/Button.svelte';
+	import Checkbox from '$lib/components/Checkbox/Checkbox.svelte';
 	import Flyout from '$lib/components/Flyout/Flyout.svelte';
 	import Tag from '$lib/components/Tag/Tag.svelte';
 	import TextInput from '$lib/components/TextInput/TextInput.svelte';
@@ -34,6 +35,9 @@
 		<Tag color="orange">Orange Tag</Tag>
 		<Tag size="sm">Small Tag</Tag>
 		<Tag size="lg">Large Tag</Tag>
+	</div>
+	<div class="checkboxes">
+		<Checkbox label="Checkbox" required on:change={handleChange} />
 	</div>
 </div>
 
