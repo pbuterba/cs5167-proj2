@@ -1,8 +1,13 @@
 <script>
+	import Accordion from '$lib/components/Accordion/Accordion.svelte';
+	import AccordionBody from '$lib/components/Accordion/AccordionBody.svelte';
+	import AccordionHeader from '$lib/components/Accordion/AccordionHeader.svelte';
 	import Button from '$lib/components/Button/Button.svelte';
 	import Checkbox from '$lib/components/Checkbox/Checkbox.svelte';
 	import Flyout from '$lib/components/Flyout/Flyout.svelte';
+	import Header from '$lib/components/Header/Header.svelte';
 	import Tag from '$lib/components/Tag/Tag.svelte';
+	import Text from '$lib/components/Text/Text.svelte';
 	import TextInput from '$lib/components/TextInput/TextInput.svelte';
 	import { toggle } from '$lib/utilities/stores.js';
 	function handleChange(event) {
@@ -14,15 +19,28 @@
 </script>
 
 <div class="components">
+	<Header>This is an H1 Header</Header>
+	<Header type="h2">This is an H2 Header</Header>
+	<Header type="subheader">This is a Subheader</Header>
+	<Text
+		>This is a text element. There isnt much to it yet, but this applies default color, font weight,
+		and font styles.
+	</Text>
 	<TextInput label="This is an Input" required on:change={handleChange} />
 	<div class="buttons">
 		<Button on:click={handleClick}>This is a Default Button</Button>
 		<Button type="inverse">This is an Inverse Button</Button>
 		<Button type="empty">This is an Empty Button</Button>
 	</div>
-	Click the Default Button to see a flyout
+	<Text>Click the Default Button to see a flyout</Text>
 	<Flyout id="flyout1" header="This is a Flyout">
-		<div slot="flyout-body"><img class="shrek" src="/shrek.png" alt="shrek" />Shrek says hi</div>
+		<div slot="flyout-body">
+			<img
+				class="shrek"
+				src="https://i.pinimg.com/736x/82/f2/e5/82f2e56c0bb7958a3806cb134f999bde.jpg"
+				alt="shrek"
+			/>Shrek says hi
+		</div>
 		<div slot="flyout-footer" class="flyout-actions">
 			<Button type="inverse">Cancel</Button><Button>Save</Button>
 		</div>
@@ -38,6 +56,21 @@
 	</div>
 	<div class="checkboxes">
 		<Checkbox label="Checkbox" required on:change={handleChange} />
+	</div>
+	<div class="accordion">
+		<Accordion>
+			<AccordionHeader slot="header">This is an Accordion</AccordionHeader>
+			<AccordionBody slot="body"
+				><Text>This is the body of the Accordion</Text>
+				<div class="accordion-img">
+					<img
+						class="shrek"
+						src="https://i.pinimg.com/736x/a9/ef/a9/a9efa9e0d9a868bf182a920938c0c094.jpg"
+						alt="shrek"
+					/>
+				</div></AccordionBody
+			>
+		</Accordion>
 	</div>
 </div>
 
@@ -65,5 +98,13 @@
 		display: flex;
 		gap: 8px;
 		align-items: center;
+	}
+
+	.accordion {
+		width: 50%;
+	}
+
+	.accordion-img {
+		width: 80%;
 	}
 </style>

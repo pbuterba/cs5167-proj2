@@ -39,6 +39,7 @@
 		box-sizing: border-box;
 		border: none;
 		font-size: 16px;
+		color: var(--color-text);
 		padding: 0 30px;
 		height: 40px;
 		border-radius: var(--size-xs);
