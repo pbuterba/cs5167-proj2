@@ -24,21 +24,22 @@
 		justify-content: center;
 		width: fit-content;
 		height: fit-content;
-		padding: var(--size-xs) var(--size-md);
+		padding: var(--size-xs) var(--size-sm);
 		border-radius: var(--border-radius-lg);
-		font-size: 16px;
+		font-size: 12px;
 		font-weight: 600;
-		border: 3px solid transparent;
+		border: 2px solid transparent;
 	}
 
 	.sm {
-		font-size: 12px;
+		font-size: 8px;
 		border-width: 2px;
 		padding: var(--size-xs) var(--size-sm);
 	}
 
 	.lg {
-		font-size: 20px;
+		font-size: 16px;
+		padding: var(--size-xs) var(--size-md);
 	}
 
 	.green {

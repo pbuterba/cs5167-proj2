@@ -29,8 +29,8 @@
 
 	.entryarea {
 		position: relative;
-		height: 50px;
-		line-height: 50px;
+		height: 40px;
+		line-height: 40px;
 	}
 
 	input {
@@ -38,9 +38,10 @@
 		width: 100%;
 		box-sizing: border-box;
 		border: none;
-		font-size: 120%;
+		font-size: 16px;
+		color: var(--color-text);
 		padding: 0 30px;
-		height: 50px;
+		height: 40px;
 		border-radius: var(--size-xs);
 		outline: 1px solid var(--color-edge-darker);
 		background: transparent;
@@ -49,12 +50,12 @@
 	}
 
 	input:hover {
-		outline: 3px solid var(--color-edge-darker);
+		outline: 2px solid var(--color-edge-darker);
 	}
 
 	.labelline {
 		position: absolute;
-		font-size: 120%;
+		font-size: 16px;
 		color: var(--color-text-lighter);
 		padding: 0 8px;
 		background-color: var(--color-surface);
@@ -77,6 +78,6 @@
 	}
 
 	input:focus {
-		outline: 3px solid var(--color-green);
+		outline: 2px solid var(--color-green);
 	}
 </style>
