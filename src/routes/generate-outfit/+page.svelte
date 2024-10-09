@@ -2,6 +2,7 @@
     import Header from '$lib/components/Header/Header.svelte';
     import Checkbox from '$lib/components/Checkbox/Checkbox.svelte';
     import Button from '$lib/components/Button/Button.svelte';
+    import { presetClothes } from '../../presetClothingData';
     
     let isOutfitShown = false;
     function toggleOutfitShowing() {
@@ -36,11 +37,12 @@
     {:else}
         <div class="display_outfit">
             <div class="box">
-                <Header type="h2">Outfit Top: </Header>
-
+                <Header type="h2">Outfit Top: </Header> <br>
+                <img src={presetClothes[0].img} alt="shirt">
             </div>
             <div class="box">
-                <Header type="h2">Outfit Bottom: </Header>
+                <Header type="h2">Outfit Bottom: </Header> <br>
+                <img src={presetClothes[1].img} alt="bottom">
             </div>
         </div> <br>
         <Button>Submit Outfit Choice</Button>
