@@ -4,8 +4,6 @@
 
 	const accordionStore = createAccordionStore();
 	setContext('accordionStore', accordionStore);
-
-	console.log($accordionStore?.isOpen);
 </script>
 
 <div class="accordion">
