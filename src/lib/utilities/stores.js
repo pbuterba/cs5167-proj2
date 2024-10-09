@@ -63,6 +63,17 @@ function createClothesStore() {
             return itemsOfType;
         },
 
+        // Edit here
+        getClothingItemsByFilters: (filterList) => {
+            let itemsOfFilters;
+            update(items => {
+                // Edit here
+                itemsOfFilters = items.filter((item) => item.type === type);
+                return items;
+            });
+            return itemsOfFilters;
+        },
+
         isClothingItemClean: (id) => {
             let isClean = false;
             update(items => {
