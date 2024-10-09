@@ -206,5 +206,3 @@ function toggle(id) {
 
 export { close, flyoutStore, open, toggle };
 
-
-
