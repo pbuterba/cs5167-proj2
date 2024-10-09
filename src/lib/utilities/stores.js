@@ -63,11 +63,9 @@ function createClothesStore() {
             return itemsOfType;
         },
 
-        // Edit here
         getClothingItemsByFilters: (filterList) => {
             let itemsOfFilters;
             update(items => {
-                // Edit here
                 itemsOfFilters = items.filter((item) => {item.filters.cozy === filterList.cozy && item.filters.formal === filterList.formal
                                 && item.filters.temphigh === filterList.temphigh && item.filters.templow == filterList.templow; });
                 return items;
@@ -135,6 +133,16 @@ function createOutfitStore() {
                 return outfits;
             });
             return foundOutfit;
+        },
+
+        getClothingItemsByFilters: (filterList) => {
+            let outfitsOfFilters;
+            update(outfits => {
+                outfitsOfFilters = outfits.filter((outfits) => {outfits.filters.cozy === filterList.cozy && outfits.filters.formal === filterList.formal
+                                && outfits.filters.temphigh === filterList.temphigh && outfits.filters.templow == filterList.templow; });
+                return outfits;
+            });
+            return outfitsOfFilters;
         },
 
         removeOutfitById: (id) => {
