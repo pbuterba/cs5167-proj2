@@ -6,16 +6,28 @@
 	import Checkbox from '$lib/components/Checkbox/Checkbox.svelte';
 	import Flyout from '$lib/components/Flyout/Flyout.svelte';
 	import Header from '$lib/components/Header/Header.svelte';
+	import Popover from '$lib/components/Popover/Popover.svelte';
+	import PopoverContent from '$lib/components/Popover/PopoverContent.svelte';
+	import PopoverTrigger from '$lib/components/Popover/PopoverTrigger.svelte';
 	import Tag from '$lib/components/Tag/Tag.svelte';
 	import Text from '$lib/components/Text/Text.svelte';
 	import TextInput from '$lib/components/TextInput/TextInput.svelte';
+	import PopoverMultiSelectContent from '$lib/components/Popover/CustomPopoverTrigger/PopoverMultiSelectContent.svelte';
 	import { toggle } from '$lib/utilities/stores.js';
+	import PopoverChipTrigger from '../../lib/components/Popover/CustomPopoverContent/PopoverChipTrigger.svelte';
 	function handleChange(event) {
 		console.log(event.detail.value);
 	}
 	function handleClick() {
 		toggle('flyout1');
 	}
+
+	let exampleItems = [
+		{ label: 'Item 1', value: 'item1' },
+		{ label: 'Item 2', value: 'item2' },
+		{ label: 'Item 3', value: 'item3' },
+		{ label: 'Item 4', value: 'item4' }
+	];
 </script>
 
 <div class="components">
@@ -59,7 +71,8 @@
 	</div>
 	<div class="accordion">
 		<Accordion>
-			<AccordionHeader slot="header">This is an Accordion</AccordionHeader>
+			<AccordionHeader slot="header"><Text type="light">This is an Accordion</Text></AccordionHeader
+			>
 			<AccordionBody slot="body"
 				><Text>This is the body of the Accordion</Text>
 				<div class="accordion-img">
@@ -72,6 +85,10 @@
 			>
 		</Accordion>
 	</div>
+	<Popover>
+		<PopoverChipTrigger slot="trigger" />
+		<PopoverMultiSelectContent slot="content" items={exampleItems} />
+	</Popover>
 </div>
 
 <style>
