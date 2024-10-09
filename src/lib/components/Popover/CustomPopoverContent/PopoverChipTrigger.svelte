@@ -18,7 +18,7 @@
 					{$popoverStore.selectedItems[0].label}
 				</Text>
 				{#if $popoverStore.selectedItems.length > 1}
-					<Text type="light">
+					<Text type="light" size="small">
 						+{$popoverStore.selectedItems.length - 1}
 					</Text>
 				{/if}
@@ -60,6 +60,7 @@
 
 	.popover-chip-trigger-label {
 		display: flex;
+		align-items: center;
 		gap: 8px;
 	}
 

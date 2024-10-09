@@ -8,8 +8,7 @@
 	export let position = 'bottom';
 
 	let popoverElement;
-	let triggerElement;
-	let contentElement;
+	let popperInstance;
 
 	let popoverStore = createPopoverStore(id, selectedItems);
 	setContext('popoverStore', popoverStore);
@@ -47,17 +46,7 @@
 		const contentElement = getContentElement();
 
 		if (triggerElement && contentElement) {
-			createPopper(triggerElement, contentElement, {
-				placement: position,
-				modifiers: [
-					{
-						name: 'offset',
-						options: {
-							offset: [0, 8]
-						}
-					}
-				]
-			});
+			popperInstance = createPopper(triggerElement, contentElement);
 		}
 	}
 
@@ -72,6 +61,7 @@
 
 	onMount(() => {
 		createPopperInstance();
+		popperInstance.update();
 	});
 </script>
 

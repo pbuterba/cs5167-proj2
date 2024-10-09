@@ -1,8 +1,14 @@
 <script>
 	export let type = 'default';
+	export let size = 'default';
 </script>
 
-<span class="text" class:default={type === 'default'} class:light={type === 'light'}>
+<span
+	class="text"
+	class:default={type === 'default'}
+	class:light={type === 'light'}
+	class:small={size === 'small'}
+>
 	<slot></slot>
 </span>
 
@@ -14,5 +20,9 @@
 
 	.light {
 		color: #787878;
+	}
+
+	.small {
+		font-size: 13px;
 	}
 </style>
