@@ -28,6 +28,12 @@
 		{ label: 'Item 3', value: 'item3' },
 		{ label: 'Item 4', value: 'item4' }
 	];
+
+	let popoverItems = [];
+
+	function handlePopoverItemsChanged(event) {
+		popoverItems = event.detail.selectedItems;
+	}
 </script>
 
 <div class="components">
@@ -85,10 +91,16 @@
 			>
 		</Accordion>
 	</div>
-	<Popover>
+	<Popover on:popoverItemsChanged={handlePopoverItemsChanged}>
 		<PopoverChipTrigger slot="trigger" />
 		<PopoverMultiSelectContent slot="content" items={exampleItems} />
 	</Popover>
+	<div>
+		<Text>Selected Items:</Text>
+		{#each popoverItems as item}
+			<Tag>{item.label}</Tag>
+		{/each}
+	</div>
 </div>
 
 <style>

@@ -28,17 +28,11 @@
 	};
 
 	function getTriggerElement() {
-		let triggerElement = popoverElement.querySelector('#trigger');
-		if (triggerElement) {
-			return triggerElement;
-		}
+		return popoverElement.querySelector('#trigger');
 	}
 
 	function getContentElement() {
-		let contentElement = popoverElement.querySelector('#content');
-		if (contentElement) {
-			return contentElement;
-		}
+		return popoverElement.querySelector('#content');
 	}
 
 	function createPopperInstance() {
@@ -46,7 +40,23 @@
 		const contentElement = getContentElement();
 
 		if (triggerElement && contentElement) {
-			popperInstance = createPopper(triggerElement, contentElement);
+			popperInstance = createPopper(triggerElement, contentElement, {
+				placement: position,
+				modifiers: [
+					{
+						name: 'offset',
+						options: {
+							offset: [0, 4] // Adjust this value to bring the popover closer to the trigger
+						}
+					},
+					{
+						name: 'preventOverflow',
+						options: {
+							padding: 8
+						}
+					}
+				]
+			});
 		}
 	}
 
@@ -54,12 +64,13 @@
 	$: {
 		if ($popoverStore.isOpen) {
 			popoverOverOpenedDispatch();
+			popperInstance?.update();
 		} else {
 			popoverOverClosedDispatch();
 		}
 	}
 
-	onMount(() => {
+	onMount(async () => {
 		createPopperInstance();
 		popperInstance.update();
 	});

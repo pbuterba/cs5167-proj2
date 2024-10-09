@@ -11,11 +11,9 @@
 
 <style>
 	.popover-content {
-		gap: 8px;
-		padding: 8px;
+		padding: 8px 16px;
 		background-color: var(--color-surface);
-		box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.1);
-		position: absolute;
+		box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.2);
 	}
 
 	.hidden {
