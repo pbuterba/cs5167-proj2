@@ -5,6 +5,7 @@
     import { presetClothes } from '../../presetClothingData';
     
     let isOutfitShown = false;
+    let clothingFilters = {cozy:false, formal: false, temphigh: 0, templow: 0,}
     function toggleOutfitShowing() {
         if (isOutfitShown) {isOutfitShown = false;}
         else {isOutfitShown = true;}

@@ -68,7 +68,8 @@ function createClothesStore() {
             let itemsOfFilters;
             update(items => {
                 // Edit here
-                itemsOfFilters = items.filter((item) => item.type === type);
+                itemsOfFilters = items.filter((item) => {item.filters.cozy === filterList.cozy && item.filters.formal === filterList.formal
+                                && item.filters.temphigh === filterList.temphigh && item.filters.templow == filterList.templow; });
                 return items;
             });
             return itemsOfFilters;
