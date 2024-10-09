@@ -10,7 +10,6 @@
 
     let clothingFiltersTEMP = {cozy:true, formal: false, temphigh: 80, templow: 40}
     function filterOutfits() {
-        // Currently not returning anything
         let filteredOutfits = outfitStore.getOutfitsByFilters(clothingFiltersTEMP);
         alert(JSON.stringify(filteredOutfits));
     }
