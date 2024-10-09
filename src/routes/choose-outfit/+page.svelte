@@ -3,14 +3,15 @@
     import Checkbox from '$lib/components/Checkbox/Checkbox.svelte';
     import Button from '$lib/components/Button/Button.svelte';
     import { presetClothes } from '../../presetClothingData';
-    import {outfitStore} from '../../lib/utilities/stores'
+    import {outfitStore} from '../../lib/utilities/stores';
+    import {clothesStore} from '../../lib/utilities/stores';
     
     let isOutfitShown = false;
     let clothingFilters = {cozy:false, formal: false, temphigh: 0, templow: 0}
 
-    let clothingFiltersTEMP = {cozy:true, formal: false, temphigh: 80, templow: 40}
+    let clothingFiltersTEMP = {cozy:true, formal: false, temp: 65}
     function filterOutfits() {
-        let filteredOutfits = outfitStore.getOutfitsByFilters(clothingFiltersTEMP);
+        let filteredOutfits = outfitStore.getOutfitByFilters(clothingFiltersTEMP);
         alert(JSON.stringify(filteredOutfits));
     }
     
@@ -47,11 +48,11 @@
         <div class="display_outfit">
             <div class="box">
                 <Header type="h2">Outfit Top: </Header> <br>
-                <img src={presetClothes[0].img} alt="shirt">
+                <img src={clothesStore.getClothingItemById($outfitStore[0].topid).img} alt="top">
             </div>
             <div class="box">
                 <Header type="h2">Outfit Bottom: </Header> <br>
-                <img src={presetClothes[1].img} alt="bottom">
+                <img src={clothesStore.getClothingItemById($outfitStore[0].bottomid).img} alt="bottom">
             </div>
         </div> <br>
         <Button on:click={()=>filterOutfits()}>Submit Outfit Choice</Button>

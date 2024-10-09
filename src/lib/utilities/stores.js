@@ -63,11 +63,11 @@ function createClothesStore() {
             return itemsOfType;
         },
 
-        getClothingItemsByFilters: (filterList) => {
+        getClothingItemByFilters: (filterQuery) => {
             let itemsOfFilters;
             update(items => {
-                itemsOfFilters = items.filter((item) => {item.filters.cozy === filterList.cozy && item.filters.formal === filterList.formal
-                                && item.filters.temphigh === filterList.temphigh && item.filters.templow === filterList.templow; });
+                itemsOfFilters = items.filter((item) => {item.filters.cozy === filterQuery.cozy && item.filters.formal === filterQuery.formal
+                    && outfit.filters.temphigh >= filterQuery.temp && outfit.filters.templow <= filterQuery.temp; });
                 return items;
             });
             return itemsOfFilters;
@@ -135,11 +135,11 @@ function createOutfitStore() {
             return foundOutfit;
         },
 
-        getOutfitsByFilters: (filterList) => {
+        getOutfitByFilters: (filterQuery) => {
             let outfitsOfFilters;
             update(outfits => {
-                outfitsOfFilters = outfits.filter(outfit => outfit.filters.cozy === filterList.cozy && outfit.filters.formal === filterList.formal &&
-                                    outfit.filters.temphigh === filterList.temphigh && outfit.filters.templow === filterList.templow);
+                outfitsOfFilters = outfits.filter(outfit => outfit.filters.cozy === filterQuery.cozy && outfit.filters.formal === filterQuery.formal &&
+                                    outfit.filters.temphigh >= filterQuery.temp && outfit.filters.templow <= filterQuery.temp);
                 return outfits;      
             });
             return outfitsOfFilters;
