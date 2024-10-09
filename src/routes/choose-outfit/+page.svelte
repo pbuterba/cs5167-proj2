@@ -3,9 +3,18 @@
     import Checkbox from '$lib/components/Checkbox/Checkbox.svelte';
     import Button from '$lib/components/Button/Button.svelte';
     import { presetClothes } from '../../presetClothingData';
+    import {outfitStore} from '../../lib/utilities/stores'
     
     let isOutfitShown = false;
-    let clothingFilters = {cozy:false, formal: false, temphigh: 0, templow: 0,}
+    let clothingFilters = {cozy:false, formal: false, temphigh: 0, templow: 0}
+
+    let clothingFiltersTEMP = {cozy:true, formal: false, temphigh: 80, templow: 40}
+    function filterOutfits() {
+        // Currently not returning anything
+        let filteredOutfits = outfitStore.getOutfitsByFilters(clothingFiltersTEMP);
+        alert(JSON.stringify(filteredOutfits));
+    }
+    
     function toggleOutfitShowing() {
         if (isOutfitShown) {isOutfitShown = false;}
         else {isOutfitShown = true;}
@@ -46,7 +55,7 @@
                 <img src={presetClothes[1].img} alt="bottom">
             </div>
         </div> <br>
-        <Button>Submit Outfit Choice</Button>
+        <Button on:click={()=>filterOutfits()}>Submit Outfit Choice</Button>
     {/if}
 </div>
 

@@ -135,7 +135,7 @@ function createOutfitStore() {
             return foundOutfit;
         },
 
-        getClothingItemsByFilters: (filterList) => {
+        getOutfitsByFilters: (filterList) => {
             let outfitsOfFilters;
             update(outfits => {
                 outfitsOfFilters = outfits.filter((outfits) => {outfits.filters.cozy === filterList.cozy && outfits.filters.formal === filterList.formal
