@@ -8,6 +8,9 @@
 	let dispatch = createEventDispatcher();
 
 	const onClick = (event) => {
+		if (!href) {
+			event.preventDefault();
+		}
 		dispatch('click', event);
 		const ripple = document.createElement('div');
 		ripple.classList.add('ripple');

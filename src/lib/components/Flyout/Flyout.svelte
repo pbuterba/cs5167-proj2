@@ -10,7 +10,7 @@
 
 	let expanded = false;
 	$: {
-		$flyoutStore, (expanded = $flyoutStore.get(id) || false), console.log($flyoutStore);
+		$flyoutStore, (expanded = $flyoutStore.get(id) || false);
 	}
 </script>
 

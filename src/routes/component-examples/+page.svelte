@@ -13,11 +13,12 @@
 	import Text from '$lib/components/Text/Text.svelte';
 	import TextInput from '$lib/components/TextInput/TextInput.svelte';
 	import PopoverMultiSelectContent from '$lib/components/Popover/CustomPopoverTrigger/PopoverMultiSelectContent.svelte';
-	import { toggle } from '$lib/utilities/stores.js';
+	import { clothesStore, outfitStore, toggle } from '$lib/utilities/stores.js';
 	import PopoverChipTrigger from '../../lib/components/Popover/CustomPopoverContent/PopoverChipTrigger.svelte';
 	function handleChange(event) {
 		console.log(event.detail.value);
 	}
+
 	function handleClick() {
 		toggle('flyout1');
 	}
@@ -33,6 +34,14 @@
 
 	function handlePopoverItemsChanged(event) {
 		popoverItems = event.detail.selectedItems;
+	}
+
+	function makeOutfitDirty(outfitid) {
+		outfitStore.makeOutfitDirty(outfitid);
+	}
+
+	function makeOutfitClean(outfitid) {
+		outfitStore.makeOutfitClean(outfitid);
 	}
 </script>
 
@@ -101,6 +110,34 @@
 			<Tag>{item.label}</Tag>
 		{/each}
 	</div>
+
+	<div class="outfit-example">
+		{#each $outfitStore as outfit}
+			<Header type="h2">{outfit.name}</Header>
+
+			<div class="img-wrapper">
+				<img
+					class="outfit-top"
+					src={clothesStore.getClothingItemById(outfit.topid).img}
+					alt="top"
+				/>
+				<img
+					class="outfit-bottom"
+					src={clothesStore.getClothingItemById(outfit.bottomid).img}
+					alt="bottom"
+				/>
+			</div>
+			<div class="outfit-footer">
+				<Button on:click={makeOutfitClean(outfit.id)}>Make Outfit Clean</Button>
+				{#if clothesStore.isClothingItemClean(outfit.topid) || clothesStore.isClothingItemClean(outfit.bottomid)}
+					<Tag color="green">Clean</Tag>
+				{:else}
+					<Tag color="red">Dirty</Tag>
+				{/if}
+				<Button on:click={makeOutfitDirty(outfit.id)}>Make Outfit Dirty</Button>
+			</div>
+		{/each}
+	</div>
 </div>
 
 <style>
@@ -135,5 +172,35 @@
 
 	.accordion-img {
 		width: 80%;
+	}
+
+	.outfit-example {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+		align-items: center;
+		justify-content: center;
+		width: fit-content;
+		border-radius: 8px;
+		box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.1);
+		padding: 16px;
+	}
+
+	.outfit-footer {
+		display: flex;
+		gap: 8px;
+		align-items: center;
+	}
+
+	.img-wrapper {
+		display: flex;
+		gap: 8px;
+	}
+
+	.img-wrapper img {
+		width: 100px;
+		border-radius: 8px;
+		border: 3px solid var(--color-edge);
+		padding: 16px;
 	}
 </style>
