@@ -42,7 +42,6 @@
         <Header type="h1">Outfit Suggestions </Header>
         <div class="display_outfit">
             <Header type="h2">{outfitStore.getOutfitById(1).name} </Header>
-            <Header type="h2">{clothesStore.getClothingItemById(filteredOutfits[0].topid).name}</Header>
 
             <div class="img_wrapper">
                 <img src={clothesStore.getClothingItemById(filteredOutfits[0].topid).img} alt="top"/>
