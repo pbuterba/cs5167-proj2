@@ -2,8 +2,19 @@
     import Header from '$lib/components/Header/Header.svelte';
     import Checkbox from '$lib/components/Checkbox/Checkbox.svelte';
     import Button from '$lib/components/Button/Button.svelte';
+    import { presetClothes } from '../../presetClothingData';
+    import {outfitStore} from '../../lib/utilities/stores';
+    import {clothesStore} from '../../lib/utilities/stores';
     
     let isOutfitShown = false;
+    let clothingFilters = {cozy:false, formal: false, temphigh: 0, templow: 0}
+
+    let clothingFiltersTEMP = {cozy:true, formal: false, temp: 65}
+    function filterOutfits() {
+        let filteredOutfits = outfitStore.getOutfitByFilters(clothingFiltersTEMP);
+        alert(JSON.stringify(filteredOutfits));
+    }
+    
     function toggleOutfitShowing() {
         if (isOutfitShown) {isOutfitShown = false;}
         else {isOutfitShown = true;}
@@ -36,14 +47,15 @@
     {:else}
         <div class="display_outfit">
             <div class="box">
-                <Header type="h2">Outfit Top: </Header>
-
+                <Header type="h2">Outfit Top: </Header> <br>
+                <img src={clothesStore.getClothingItemById($outfitStore[0].topid).img} alt="top">
             </div>
             <div class="box">
-                <Header type="h2">Outfit Bottom: </Header>
+                <Header type="h2">Outfit Bottom: </Header> <br>
+                <img src={clothesStore.getClothingItemById($outfitStore[0].bottomid).img} alt="bottom">
             </div>
         </div> <br>
-        <Button>Submit Outfit Choice</Button>
+        <Button on:click={()=>filterOutfits()}>Submit Outfit Choice</Button>
     {/if}
 </div>
 

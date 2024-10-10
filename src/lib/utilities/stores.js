@@ -63,6 +63,16 @@ function createClothesStore() {
             return itemsOfType;
         },
 
+        getClothingItemByFilters: (filterQuery) => {
+            let itemsOfFilters;
+            update(items => {
+                itemsOfFilters = items.filter((item) => {item.filters.cozy === filterQuery.cozy && item.filters.formal === filterQuery.formal
+                    && outfit.filters.temphigh >= filterQuery.temp && outfit.filters.templow <= filterQuery.temp; });
+                return items;
+            });
+            return itemsOfFilters;
+        },
+
         isClothingItemClean: (id) => {
             let isClean = false;
             update(items => {
@@ -123,6 +133,16 @@ function createOutfitStore() {
                 return outfits;
             });
             return foundOutfit;
+        },
+
+        getOutfitByFilters: (filterQuery) => {
+            let outfitsOfFilters;
+            update(outfits => {
+                outfitsOfFilters = outfits.filter(outfit => outfit.filters.cozy === filterQuery.cozy && outfit.filters.formal === filterQuery.formal &&
+                                    outfit.filters.temphigh >= filterQuery.temp && outfit.filters.templow <= filterQuery.temp);
+                return outfits;      
+            });
+            return outfitsOfFilters;
         },
 
         removeOutfitById: (id) => {
