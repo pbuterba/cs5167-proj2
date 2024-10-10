@@ -14,6 +14,11 @@
 		dispatch('click', event);
 		const ripple = document.createElement('div');
 		ripple.classList.add('ripple');
+		if (type === 'empty-baige') {
+			ripple.style.backgroundColor = 'var(--color-baige)';
+		} else {
+			ripple.style.backgroundColor = 'var(--color-green)';
+		}
 		button.appendChild(ripple);
 
 		const rect = button.getBoundingClientRect();
@@ -37,6 +42,7 @@
 	class="button"
 	class:inverse={type === 'inverse'}
 	class:empty={type === 'empty'}
+	class:empty-baige={type === 'empty-baige'}
 	{href}
 	{target}
 	on:click={onClick}
@@ -106,10 +112,22 @@
 		color: var(--color-green);
 	}
 
+	.empty-baige {
+		background-color: transparent;
+		border-color: var(--color-baige);
+	}
+
+	.empty-baige:hover {
+		background-color: var(--color-baige-transparent);
+	}
+
+	.empty-baige .label {
+		color: var(--color-baige);
+	}
+
 	:global(.ripple) {
 		position: absolute;
 		border-radius: 50%;
-		background-color: var(--color-green);
 		width: 100px;
 		height: 100px;
 		transform: translate(-50%, -50%) scale(0);

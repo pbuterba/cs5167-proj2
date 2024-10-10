@@ -2,9 +2,9 @@
 	import { getContext } from 'svelte';
 
 	const accordionStore = getContext('accordionStore');
-	let rotateDegrees = 180;
+	let rotateDegrees = 0;
 
-	$: rotateDegrees = $accordionStore?.isOpen ? 0 : 180;
+	$: rotateDegrees = $accordionStore?.isOpen ? 180 : 0;
 
 	function handleClick() {
 		accordionStore.toggle();
@@ -62,7 +62,7 @@
 	.accordion-chevron {
 		height: 24px;
 		width: 24px;
-		/* Adding a transition to the transform */
 		transition: transform 0.3s ease;
+		color: #787878;
 	}
 </style>
