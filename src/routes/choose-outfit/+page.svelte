@@ -2,16 +2,18 @@
     import Header from '$lib/components/Header/Header.svelte';
     import Checkbox from '$lib/components/Checkbox/Checkbox.svelte';
     import Button from '$lib/components/Button/Button.svelte';
-    import { presetClothes } from '../../presetClothingData';
+    import Popover from '$lib/components/Popover/Popover.svelte';
     import {outfitStore} from '../../lib/utilities/stores';
     import {clothesStore} from '../../lib/utilities/stores';
     
     let isOutfitShown = false;
+    let filteredOutfits;
     let clothingFilters = {cozy:false, formal: false, temphigh: 0, templow: 0}
 
     let clothingFiltersTEMP = {cozy:true, formal: false, temp: 65}
+    
     function filterOutfits() {
-        let filteredOutfits = outfitStore.getOutfitByFilters(clothingFiltersTEMP);
+        filteredOutfits = outfitStore.getOutfitByFilters(clothingFiltersTEMP);
         alert(JSON.stringify(filteredOutfits));
     }
     
@@ -22,14 +24,6 @@
 </script>
 
 <div class="components">
-	<div class="header_container">
-        <Header>Outfit Generator</Header>
-        {#if isOutfitShown == true}
-            <Button on:click={()=>toggleOutfitShowing()}>Return to Preferences</Button>
-        {/if}
-    </div> 
-    <br>
-
     {#if isOutfitShown == false}
         <div class="box">
             <Header type="h2">What type of outfit are you looking for today? </Header>
@@ -42,20 +36,23 @@
                 <Checkbox label="Checkbox" />
             </div>
             <br> <br>
-            <Button on:click={()=>toggleOutfitShowing()}>Submit Preferences</Button>
+            <Button on:click={()=>toggleOutfitShowing()} on:click={()=>filterOutfits()}>Submit Preferences</Button>
         </div>
     {:else}
+        <Header type="h1">Outfit Suggestions </Header>
         <div class="display_outfit">
-            <div class="box">
-                <Header type="h2">Outfit Top: </Header> <br>
-                <img src={clothesStore.getClothingItemById($outfitStore[0].topid).img} alt="top">
+            <Header type="h2">{outfitStore.getOutfitById(1).name} </Header>
+            <Header type="h2">{clothesStore.getClothingItemById(filteredOutfits[0].topid).name}</Header>
+
+            <div class="img_wrapper">
+                <img src={clothesStore.getClothingItemById(filteredOutfits[0].topid).img} alt="top"/>
+                <img src={clothesStore.getClothingItemById(filteredOutfits[0].bottomid).img} alt="bottom"/>
             </div>
-            <div class="box">
-                <Header type="h2">Outfit Bottom: </Header> <br>
-                <img src={clothesStore.getClothingItemById($outfitStore[0].bottomid).img} alt="bottom">
-            </div>
-        </div> <br>
-        <Button on:click={()=>filterOutfits()}>Submit Outfit Choice</Button>
+        </div>
+        <div class="header_container">
+            <Button on:click={()=>toggleOutfitShowing()}>Return to Preferences</Button>
+            <Button>Submit Outfit Choice</Button>
+        </div> 
     {/if}
 </div>
 
@@ -75,6 +72,10 @@
         justify-content: space-between;
         align-items: center;
         width: 100%;
+        background-color: var(--color-baige-dark);
+        padding: 5%;
+        border-radius: 40px;
+        box-sizing: border-box;
     }
 
     .checkboxes {
@@ -89,16 +90,26 @@
         padding: 5%;
     }
 
-    .display_outfit {
-        display: flex;
-		flex-direction: row;
-		width: 100%;
-		gap: 16px;
-    }
+    .img_wrapper img {
+		border-radius: 8px;
+		border: 3px solid var(--color-edge);
+		padding: 16px;
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+	}
 
-    .display_outfit > div {
-        flex: 1;
-        height: 100%;
-    }
+    .display_outfit {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		border-radius: 8px;
+		box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.1);
+		padding: 16px;
+        box-sizing: border-box;
+	}
 
 </style>
