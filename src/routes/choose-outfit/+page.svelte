@@ -10,7 +10,7 @@
     let filteredOutfits;
     let clothingFilters = {cozy:false, formal: false, temphigh: 0, templow: 0}
 
-    let clothingFiltersTEMP = {cozy:true, formal: false, temp: 65}
+    let clothingFiltersTEMP = {cozy:false, formal: true, temp: 40}
     
     function filterOutfits() {
         filteredOutfits = outfitStore.getOutfitByFilters(clothingFiltersTEMP);
@@ -41,7 +41,7 @@
     {:else}
         <Header type="h1">Outfit Suggestions </Header>
         <div class="display_outfit">
-            <Header type="h2">{outfitStore.getOutfitById(1).name} </Header>
+            <Header type="h2">{outfitStore.getOutfitById(2).name} </Header>
 
             <div class="img_wrapper">
                 <img src={clothesStore.getClothingItemById(filteredOutfits[0].topid).img} alt="top"/>
