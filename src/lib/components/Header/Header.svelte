@@ -1,5 +1,6 @@
 <script>
 	export let type = 'h1';
+	export let color = 'default';
 </script>
 
 <span
@@ -7,6 +8,7 @@
 	class:h1={type === 'h1'}
 	class:h2={type === 'h2'}
 	class:subheader={type === 'subheader'}
+	class:baige={color === 'baige'}
 >
 	<slot></slot>
 </span>
@@ -29,5 +31,9 @@
 	.subheader {
 		font-size: 120%;
 		color: var(--color-text-lighter);
+	}
+
+	.baige {
+		color: var(--color-baige);
 	}
 </style>
