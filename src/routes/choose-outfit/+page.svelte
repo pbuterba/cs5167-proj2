@@ -3,9 +3,11 @@
     import Checkbox from '$lib/components/Checkbox/Checkbox.svelte';
     import Button from '$lib/components/Button/Button.svelte';
     import Popover from '$lib/components/Popover/Popover.svelte';
-    import {outfitStore} from '../../lib/utilities/stores';
-    import {clothesStore} from '../../lib/utilities/stores';
+    import PopoverMultiSelectContent from '$lib/components/Popover/CustomPopoverTrigger/PopoverMultiSelectContent.svelte';
+	import PopoverChipTrigger from '../../lib/components/Popover/CustomPopoverContent/PopoverChipTrigger.svelte';
+    import {outfitStore, clothesStore} from '../../lib/utilities/stores';
     
+    let popoverItems = [];
     let isOutfitShown = false;
     let filteredOutfits;
     let clothingFilters = {cozy:false, formal: false, temphigh: 0, templow: 0}
@@ -21,21 +23,33 @@
         if (isOutfitShown) {isOutfitShown = false;}
         else {isOutfitShown = true;}
     }
+
+    function handlePopoverItemsChanged(event) {
+		popoverItems = event.detail.selectedItems;
+        alert("item changed");
+	}
+
+    let preferenceItems = [
+		{ label: 'Cozy', value: 'cozy' },
+		{ label: 'Formal', value: 'formal' },
+        { label: 'Cold Temp', value: 'cold' },
+        { label: 'Hot Temp', value: 'hot' }
+	];
 </script>
 
 <div class="components">
     {#if isOutfitShown == false}
         <div class="box">
-            <Header type="h2">What type of outfit are you looking for today? </Header>
-
-            <div class="checkboxes">
-                <Checkbox label="Checkbox" />
-                <Checkbox label="Checkbox" />
-                <Checkbox label="Checkbox" />
-                <Checkbox label="Checkbox" />
-                <Checkbox label="Checkbox" />
+            <Header type="h2">What type of outfit are you looking for today? </Header> <br>
+            
+            <div class="popover_content">
+                <Popover on:popoverItemsChanged={handlePopoverItemsChanged}>
+                    <PopoverChipTrigger class="popover_content" slot="trigger" label="Preferences" />
+                    <PopoverMultiSelectContent class="popover_content" slot="content" items={preferenceItems} />
+                </Popover>
             </div>
             <br> <br>
+            
             <Button on:click={()=>toggleOutfitShowing()} on:click={()=>filterOutfits()}>Submit Preferences</Button>
         </div>
     {:else}
@@ -110,5 +124,9 @@
 		padding: 16px;
         box-sizing: border-box;
 	}
+
+    .popover_content {
+        padding-top: 5%;
+    }
 
 </style>
