@@ -15,6 +15,10 @@
 	import PopoverMultiSelectContent from '$lib/components/Popover/CustomPopoverTrigger/PopoverMultiSelectContent.svelte';
 	import { clothesStore, outfitStore, toggle } from '$lib/utilities/stores.js';
 	import PopoverChipTrigger from '../../lib/components/Popover/CustomPopoverContent/PopoverChipTrigger.svelte';
+	import Tabs from '$lib/components/Tabs/Tabs.svelte';
+	import TabContent from '$lib/components/Tabs/TabContent.svelte';
+	import TabLabel from '$lib/components/Tabs/TabLabel.svelte';
+
 	function handleChange(event) {
 		console.log(event.detail.value);
 	}
@@ -138,6 +142,10 @@
 			</div>
 		{/each}
 	</div>
+	<Tabs activeTab="1">
+		<TabLabel tabnum="1" slot="label">Tab 1</TabLabel>
+		<!-- <TabContent slot="content">Content 1</TabContent> -->
+	</Tabs>
 </div>
 
 <style>
