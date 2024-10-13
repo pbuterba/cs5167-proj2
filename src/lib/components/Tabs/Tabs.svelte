@@ -12,10 +12,10 @@
 
 <div class="tabs">
 	<div class="tab-labels">
-		<slot name="label"></slot>
+		<slot name="labels"></slot>
 	</div>
 	<div class="tab-content">
-		<slot name="content"></slot>
+		<slot name="contents"></slot>
 	</div>
 </div>
 
@@ -30,6 +30,7 @@
 	.tab-labels {
 		display: flex;
 		gap: 4px;
+		border-bottom: 2px solid var(--color-edge-dark);
 	}
 
 	.tab-labels > * {

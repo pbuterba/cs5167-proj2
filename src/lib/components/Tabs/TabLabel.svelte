@@ -28,13 +28,12 @@
 
 	.tab-label:hover {
 		background-color: var(--color-surface-dark);
-		font-weight: bold;
 		border-bottom: 2px solid var(--color-edge-dark);
 	}
 
 	.active {
 		border-bottom: 2px solid var(--color-green);
-		font-weight: bold;
+		font-weight: 600;
 	}
 
 	.active:hover {

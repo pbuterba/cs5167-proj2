@@ -7,8 +7,6 @@
 	import Flyout from '$lib/components/Flyout/Flyout.svelte';
 	import Header from '$lib/components/Header/Header.svelte';
 	import Popover from '$lib/components/Popover/Popover.svelte';
-	import PopoverContent from '$lib/components/Popover/PopoverContent.svelte';
-	import PopoverTrigger from '$lib/components/Popover/PopoverTrigger.svelte';
 	import Tag from '$lib/components/Tag/Tag.svelte';
 	import Text from '$lib/components/Text/Text.svelte';
 	import TextInput from '$lib/components/TextInput/TextInput.svelte';
@@ -18,6 +16,7 @@
 	import Tabs from '$lib/components/Tabs/Tabs.svelte';
 	import TabContent from '$lib/components/Tabs/TabContent.svelte';
 	import TabLabel from '$lib/components/Tabs/TabLabel.svelte';
+	import StandardContentLayout from '$lib/components/StandardContentLayout/StandardContentLayout.svelte';
 
 	function handleChange(event) {
 		console.log(event.detail.value);
@@ -50,20 +49,106 @@
 </script>
 
 <div class="components">
-	<Header>This is an H1 Header</Header>
-	<Header type="h2">This is an H2 Header</Header>
-	<Header type="subheader">This is a Subheader</Header>
-	<Text
-		>This is a text element. There isnt much to it yet, but this applies default color, font weight,
-		and font styles.
-	</Text>
-	<TextInput label="This is an Input" required on:change={handleChange} />
-	<div class="buttons">
-		<Button on:click={handleClick}>This is a Default Button</Button>
-		<Button type="inverse">This is an Inverse Button</Button>
-		<Button type="empty">This is an Empty Button</Button>
-	</div>
-	<Text>Click the Default Button to see a flyout</Text>
+	<Tabs activeTab="1">
+		<svelte:fragment slot="labels">
+			<TabLabel tabnum="1">Display Elements</TabLabel>
+			<TabLabel tabnum="2">Interactable Elements</TabLabel>
+			<TabLabel tabnum="3">Store Example</TabLabel>
+		</svelte:fragment>
+		<svelte:fragment slot="contents">
+			<TabContent tabnum="1">
+				<StandardContentLayout>
+					<Header>This is an H1 Header</Header>
+					<Header type="h2">This is an H2 Header</Header>
+					<Header type="subheader">This is a Subheader</Header>
+					<Text
+						>This is a text element. There isnt much to it yet, but this applies default color, font
+						weight, and font styles.
+					</Text>
+					<div class="tags">
+						<Tag color="green">Green Tag</Tag>
+						<Tag color="red">Red Tag</Tag>
+						<Tag color="navy">Navy Tag</Tag>
+						<Tag color="gray">Gray Tag</Tag>
+						<Tag color="orange">Orange Tag</Tag>
+						<Tag size="sm">Small Tag</Tag>
+						<Tag size="lg">Large Tag</Tag>
+					</div>
+				</StandardContentLayout>
+			</TabContent>
+			<TabContent tabnum="2">
+				<StandardContentLayout>
+					<TextInput label="This is an Input" required on:change={handleChange} />
+					<div class="buttons">
+						<Button on:click={handleClick}>This is a Default Button</Button>
+						<Button type="inverse">This is an Inverse Button</Button>
+						<Button type="empty">This is an Empty Button</Button>
+					</div>
+					<Text>Click the Default Button to see a flyout</Text>
+					<div class="checkboxes">
+						<Checkbox label="Checkbox" required on:change={handleChange} />
+					</div>
+					<div class="accordion">
+						<Accordion>
+							<AccordionHeader slot="header"
+								><Text type="light">This is an Accordion</Text></AccordionHeader
+							>
+							<AccordionBody slot="body"
+								><Text>This is the body of the Accordion</Text>
+								<div class="accordion-img">
+									<img
+										class="shrek"
+										src="https://i.pinimg.com/736x/a9/ef/a9/a9efa9e0d9a868bf182a920938c0c094.jpg"
+										alt="shrek"
+									/>
+								</div></AccordionBody
+							>
+						</Accordion>
+					</div>
+					<Popover on:popoverItemsChanged={handlePopoverItemsChanged}>
+						<PopoverChipTrigger slot="trigger" />
+						<PopoverMultiSelectContent slot="content" items={exampleItems} />
+					</Popover>
+					<div>
+						<Text>Selected Items:</Text>
+						{#each popoverItems as item}
+							<Tag>{item.label}</Tag>
+						{/each}
+					</div>
+				</StandardContentLayout>
+			</TabContent>
+			<TabContent tabnum="3">
+				<div class="outfit-example">
+					{#each $outfitStore as outfit}
+						<Header type="h2">{outfit.name}</Header>
+
+						<div class="img-wrapper">
+							<img
+								class="outfit-top"
+								src={clothesStore.getClothingItemById(outfit.topid).img}
+								alt="top"
+							/>
+							<img
+								class="outfit-bottom"
+								src={clothesStore.getClothingItemById(outfit.bottomid).img}
+								alt="bottom"
+							/>
+						</div>
+						<div class="outfit-footer">
+							<Button on:click={makeOutfitClean(outfit.id)}>Make Outfit Clean</Button>
+							{#if clothesStore.isClothingItemClean(outfit.topid) || clothesStore.isClothingItemClean(outfit.bottomid)}
+								<Tag color="green">Clean</Tag>
+							{:else}
+								<Tag color="red">Dirty</Tag>
+							{/if}
+							<Button on:click={makeOutfitDirty(outfit.id)}>Make Outfit Dirty</Button>
+						</div>
+					{/each}
+				</div>
+			</TabContent>
+		</svelte:fragment>
+	</Tabs>
+
 	<Flyout id="flyout1" header="This is a Flyout">
 		<div slot="flyout-body">
 			<img
@@ -76,76 +161,6 @@
 			<Button type="inverse">Cancel</Button><Button>Save</Button>
 		</div>
 	</Flyout>
-	<div class="tags">
-		<Tag color="green">Green Tag</Tag>
-		<Tag color="red">Red Tag</Tag>
-		<Tag color="navy">Navy Tag</Tag>
-		<Tag color="gray">Gray Tag</Tag>
-		<Tag color="orange">Orange Tag</Tag>
-		<Tag size="sm">Small Tag</Tag>
-		<Tag size="lg">Large Tag</Tag>
-	</div>
-	<div class="checkboxes">
-		<Checkbox label="Checkbox" required on:change={handleChange} />
-	</div>
-	<div class="accordion">
-		<Accordion>
-			<AccordionHeader slot="header"><Text type="light">This is an Accordion</Text></AccordionHeader
-			>
-			<AccordionBody slot="body"
-				><Text>This is the body of the Accordion</Text>
-				<div class="accordion-img">
-					<img
-						class="shrek"
-						src="https://i.pinimg.com/736x/a9/ef/a9/a9efa9e0d9a868bf182a920938c0c094.jpg"
-						alt="shrek"
-					/>
-				</div></AccordionBody
-			>
-		</Accordion>
-	</div>
-	<Popover on:popoverItemsChanged={handlePopoverItemsChanged}>
-		<PopoverChipTrigger slot="trigger" />
-		<PopoverMultiSelectContent slot="content" items={exampleItems} />
-	</Popover>
-	<div>
-		<Text>Selected Items:</Text>
-		{#each popoverItems as item}
-			<Tag>{item.label}</Tag>
-		{/each}
-	</div>
-
-	<div class="outfit-example">
-		{#each $outfitStore as outfit}
-			<Header type="h2">{outfit.name}</Header>
-
-			<div class="img-wrapper">
-				<img
-					class="outfit-top"
-					src={clothesStore.getClothingItemById(outfit.topid).img}
-					alt="top"
-				/>
-				<img
-					class="outfit-bottom"
-					src={clothesStore.getClothingItemById(outfit.bottomid).img}
-					alt="bottom"
-				/>
-			</div>
-			<div class="outfit-footer">
-				<Button on:click={makeOutfitClean(outfit.id)}>Make Outfit Clean</Button>
-				{#if clothesStore.isClothingItemClean(outfit.topid) || clothesStore.isClothingItemClean(outfit.bottomid)}
-					<Tag color="green">Clean</Tag>
-				{:else}
-					<Tag color="red">Dirty</Tag>
-				{/if}
-				<Button on:click={makeOutfitDirty(outfit.id)}>Make Outfit Dirty</Button>
-			</div>
-		{/each}
-	</div>
-	<Tabs activeTab="1">
-		<TabLabel tabnum="1" slot="label">Tab 1</TabLabel>
-		<!-- <TabContent slot="content">Content 1</TabContent> -->
-	</Tabs>
 </div>
 
 <style>

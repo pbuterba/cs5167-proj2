@@ -88,7 +88,7 @@
 	}
 
 	.content {
-		max-width: 1000px;
+		width: 1000px;
 		padding: 32px 4px;
 		margin: 0 auto;
 		background: var(--color-surface);
