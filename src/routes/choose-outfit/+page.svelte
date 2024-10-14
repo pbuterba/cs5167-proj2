@@ -51,9 +51,9 @@
         </div>
     {:else}
         <Header type="h1">Outfit Suggestions </Header>
+
         <div class="display_outfit">
             <Header type="h2">{outfitStore.getOutfitById(2).name} </Header>
-
             <div class="img_wrapper">
                 <img src={clothesStore.getClothingItemById(filteredOutfits[0].topid).img} alt="top"/>
                 <img src={clothesStore.getClothingItemById(filteredOutfits[0].bottomid).img} alt="bottom"/>
