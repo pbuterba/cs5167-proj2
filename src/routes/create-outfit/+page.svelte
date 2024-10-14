@@ -11,6 +11,9 @@
 	import TextInput from '$lib/components/TextInput/TextInput.svelte';
 	import { clothesStore, outfitStore } from '$lib/utilities/stores.js';
 	import { onMount } from 'svelte';
+	import Tabs from '$lib/components/Tabs/Tabs.svelte';
+	import TabContent from '$lib/components/Tabs/TabContent.svelte';
+	import TabLabel from '$lib/components/Tabs/TabLabel.svelte'; 
 
 	let shirts = [];
 	let pants = [];
@@ -75,52 +78,63 @@
 		}
 	}
 </script>
-
 <div class="components">
-	<div class="header_container">
-		<Header>Custom Outfits</Header>
-		<Button>View Saved Outfits</Button>
-	</div>
-
-	<div class="body">
-		<div class="select_item">
-			<div class="select_shirt">
-				<Header type="subheader" class="select_shirt_header">Select Shirt</Header>
-				<div class="carousel">
-					<Button on:click={previousShirt}>Previous Shirt</Button>
-					{#if selectedShirt}
-						<img src={selectedShirt.img} alt={selectedShirt.name} style="max-width: 200px;" />
-					{/if}
-					<Button on:click={nextShirt}>Next Shirt</Button>
+	<Tabs activeTab="1">
+		<svelte:fragment slot="labels">
+			<TabLabel tabnum="1">Create Outfit</TabLabel>
+			<TabLabel tabnum="2">View Outfits</TabLabel>
+		</svelte:fragment>
+		<svelte:fragment slot="contents">
+			<TabContent tabnum="1">
+				<div class="header_container">
+					<Header>Custom Outfits</Header>
+					<Button>View Saved Outfits</Button>
 				</div>
-			</div>
-		</div>
-
-		<div class="select_item">
-			<div class="select_pants">
-				<Header type="subheader" class="select_pants_header">Select Pants</Header>
-				<div class="carousel">
-					<Button on:click={previousPant}>Previous Pant</Button>
-					{#if selectedPant}
-						<img src={selectedPant.img} alt={selectedPant.name} style="max-width: 200px;" />
-					{/if}
-					<Button on:click={nextPant}>Next Pant</Button>
+			
+				<div class="body">
+					<div class="select_item">
+						<div class="select_shirt">
+							<Header type="subheader" class="select_shirt_header">Select Shirt</Header>
+							<div class="carousel">
+								<Button on:click={previousShirt}>Previous Shirt</Button>
+								{#if selectedShirt}
+									<img src={selectedShirt.img} alt={selectedShirt.name} style="max-width: 200px;" />
+								{/if}
+								<Button on:click={nextShirt}>Next Shirt</Button>
+							</div>
+						</div>
+					</div>
+			
+					<div class="select_item">
+						<div class="select_pants">
+							<Header type="subheader" class="select_pants_header">Select Pants</Header>
+							<div class="carousel">
+								<Button on:click={previousPant}>Previous Pant</Button>
+								{#if selectedPant}
+									<img src={selectedPant.img} alt={selectedPant.name} style="max-width: 200px;" />
+								{/if}
+								<Button on:click={nextPant}>Next Pant</Button>
+							</div>
+						</div>
+					</div>
+			
+					<div class="save_outfit">
+						<div style='display:flex; justify-content:center; padding:10px;'>
+							<div style="display:flexbox; width :50%;">
+								<TextInput placeholder="Enter Outfit Name" bind:value={outfitName} />
+							</div>
+						</div>
+						<div style="display:flex; justify-content:center;">
+							<Button style="align-items:center" on:click={saveOutfit}>Submit Outfit</Button>
+						</div>
+					</div>
 				</div>
-			</div>
-		</div>
-
-		<div class="save_outfit">
-			<div style='display:flex; justify-content:center; padding:10px;'>
-				<div style="display:flexbox; width :50%;">
-					<TextInput placeholder="Enter Outfit Name" bind:value={outfitName} />
-				</div>
-			</div>
-			<div style="display:flex; justify-content:center;">
-				<Button style="align-items:center" on:click={saveOutfit}>Submit Outfit</Button>
-			</div>
-		</div>
-	</div>
+			</TabContent>
+			</svelte:fragment>
+		</Tabs>
 </div>
+
+
 
 <style>
 	@import '/src/variables.css';
