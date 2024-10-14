@@ -54,9 +54,13 @@
 
         <div class="display_outfit">
             <Header type="h2">{outfitStore.getOutfitById(2).name} </Header>
-            <div class="img_wrapper">
-                <img src={clothesStore.getClothingItemById(filteredOutfits[0].topid).img} alt="top"/>
-                <img src={clothesStore.getClothingItemById(filteredOutfits[0].bottomid).img} alt="bottom"/>
+            <div class="split_container">
+                <Button type="inverse">Previous Outfit</Button>
+                <div class="img_wrapper">
+                    <img src={clothesStore.getClothingItemById(filteredOutfits[0].topid).img} alt="top"/>
+                    <img src={clothesStore.getClothingItemById(filteredOutfits[0].bottomid).img} alt="bottom"/>
+                </div>
+                <Button type="inverse">Next Outfit</Button>
             </div>
         </div>
         <div class="split_container">
