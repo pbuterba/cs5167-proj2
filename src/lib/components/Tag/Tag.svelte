@@ -10,6 +10,7 @@
 	class:orange={color === 'orange'}
 	class:red={color === 'red'}
 	class:navy={color === 'navy'}
+	class:blue={color === 'blue'}
 	class:sm={size === 'sm'}
 	class:md={size === 'md'}
 	class:lg={size === 'lg'}
@@ -65,5 +66,10 @@
 	.navy {
 		color: var(--color-navy);
 		border-color: var(--color-navy);
+	}
+
+	.blue {
+		color: var(--color-blue);
+		border-color: var(--color-blue);
 	}
 </style>

@@ -32,6 +32,7 @@
 	}
 
 	.active {
+		background-color: var(--color-surface-darker);
 		border-bottom: 2px solid var(--color-green);
 		font-weight: 600;
 	}
