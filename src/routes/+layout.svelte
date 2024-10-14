@@ -6,7 +6,12 @@
 
 <main>
 	{#if $page.data.hasHeader}
-		<div class="header" class:navy={$page.data.headerColor === 'navy'}>
+		<div
+			class="header"
+			class:navy={$page.data.headerColor === 'navy'}
+			class:green={$page.data.headerColor === 'green'}
+			class:red={$page.data.headerColor === 'red'}
+		>
 			<Header type="h1" color="baige">{$page.data.header}</Header>
 			<div class="line1" />
 			<div class="line2" />
@@ -79,6 +84,14 @@
 		background-color: var(--color-navy);
 	}
 
+	.green {
+		background-color: var(--color-green);
+	}
+
+	.red {
+		background-color: var(--color-red);
+	}
+
 	.app {
 		flex: 1;
 		display: flex;
@@ -88,7 +101,7 @@
 	}
 
 	.content {
-		max-width: 1000px;
+		width: 1000px;
 		padding: 32px 4px;
 		margin: 0 auto;
 		background: var(--color-surface);

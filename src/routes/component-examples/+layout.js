@@ -1,5 +1,5 @@
 export const load = () => ({
     hasHeader: true,
-    headerColor: "navy",
+    headerColor: "green",
     header: "Component Examples",
 }) 
