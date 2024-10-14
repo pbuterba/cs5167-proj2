@@ -38,7 +38,7 @@
 				</svg>
 			</div>
 		</HomeCard>
-		<HomeCard color="navy" title="Create Outfit" href="#">
+		<HomeCard color="navy" title="Create Outfit" href="/create-outfit">
 			<div class="hanger">
 				<svg
 					width="351"
