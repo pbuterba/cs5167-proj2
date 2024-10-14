@@ -22,7 +22,7 @@
 		</HomeCard>
 	</div>
 	<div class="right">
-		<HomeCard color="green" title="Component Examples" href="/component-examples">
+		<HomeCard color="green" title="Add Clothes" href="/add-clothes">
 			<div class="tag">
 				<svg
 					width="322"
