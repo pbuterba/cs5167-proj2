@@ -203,11 +203,11 @@
 		padding: 6px;
 		outline-style: solid;
 		outline-color: var(--color-green);
+		border-radius: 10px;
 		height: 280px;
 		width:400px;
 	}
 
-	
 	.select_shirt img,
 	.select_pants img {
 		height: 250px;
