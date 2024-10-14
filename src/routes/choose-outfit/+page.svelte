@@ -1,4 +1,8 @@
 <script>
+    // TO DO:
+    // 1. Only allow it to mark outfits that both clothing items are clean
+    // 2. Implement Submit Outfit Choice Button
+
     import Header from '$lib/components/Header/Header.svelte';
     import Button from '$lib/components/Button/Button.svelte';
     import Popover from '$lib/components/Popover/Popover.svelte';
@@ -8,13 +12,55 @@
     
     let popoverItems = [];
     let isOutfitShown = false;
-    let filteredOutfits;
-    let clothingFilters = {cozy:false, formal: false, temphigh: 0, templow: 0}
+    let filteredOutfits = [];
 
-    let clothingFiltersTEMP = {cozy:false, formal: true, temp: 40}
+    // The DEFAULT temperature is 60 degrees unless specified to use current temp
+    let clothingFilters = {cozy:false, formal: false, temp:50}
+    let outfitCount = 0
+
+    let preferenceItems = [
+		{ label: 'Cozy', value: 'cozy' },
+		{ label: 'Formal', value: 'formal' },
+        { label: 'Current Temperature', value:'temp'}
+	];
     
     function filterOutfits() {
-        filteredOutfits = outfitStore.getOutfitByFilters(clothingFiltersTEMP);
+        // Reset filters so they are properly set each loop.
+        filteredOutfits = [];
+        clothingFilters.cozy = false;
+        clothingFilters.formal = false;
+        clothingFilters.temp = 50;
+
+        popoverItems.forEach(element => {
+            if (element.value == 'cozy'){
+                clothingFilters.cozy = true;
+            }
+            else if (element.value == "formal"){
+                clothingFilters.formal = true;
+            }
+            else if (element.value == 'temp'){
+                // THIS IS TEMP and needs changed when temp store is passed in
+                clothingFilters.temp = 60;
+            }
+        });
+        filteredOutfits = outfitStore.getOutfitByFilters(clothingFilters);
+        if (filteredOutfits.length == 0) {
+            alert("There are no outfits that match your preferences. Please select a new preference combination.")
+        }
+        else {
+            toggleOutfitShowing();
+        }
+    }
+
+    function traverseOutfits(backwards=false) {
+        if (backwards == true) {
+            if (outfitCount - 1 < 0) {outfitCount = filteredOutfits.length -1;}
+            else {outfitCount = outfitCount - 1;}
+        }
+        else {
+            if (outfitCount >= filteredOutfits.length - 1) {outfitCount = 0;}
+            else {outfitCount = outfitCount + 1;}
+        }
     }
     
     function toggleOutfitShowing() {
@@ -26,12 +72,9 @@
 		popoverItems = event.detail.selectedItems;
 	}
 
-    let preferenceItems = [
-		{ label: 'Cozy', value: 'cozy' },
-		{ label: 'Formal', value: 'formal' },
-        { label: 'Cold Temp', value: 'cold' },
-        { label: 'Hot Temp', value: 'hot' }
-	];
+    function clearPopoverItems() {
+        popoverItems = [];
+    }
 </script>
 
 <div class="components">
@@ -46,25 +89,25 @@
                         <PopoverMultiSelectContent class="popover_content" slot="content" items={preferenceItems} />
                     </Popover>
                 </div>
-                <Button on:click={()=>toggleOutfitShowing()} on:click={()=>filterOutfits()}>Submit Preferences</Button>
+                <Button on:click={()=>filterOutfits()}>Submit Preferences</Button>
             </div>
         </div>
     {:else}
         <Header type="h1">Outfit Suggestions </Header>
 
         <div class="display_outfit">
-            <Header type="h2">{outfitStore.getOutfitById(2).name} </Header>
+            <Header type="h2">{filteredOutfits[outfitCount].name} </Header>
             <div class="split_container">
-                <Button type="inverse">Previous Outfit</Button>
+                <Button type="inverse" on:click={()=>traverseOutfits(true)}>Previous Outfit</Button>
                 <div class="img_wrapper">
-                    <img src={clothesStore.getClothingItemById(filteredOutfits[0].topid).img} alt="top"/>
-                    <img src={clothesStore.getClothingItemById(filteredOutfits[0].bottomid).img} alt="bottom"/>
+                    <img src={clothesStore.getClothingItemById(filteredOutfits[outfitCount].topid).img} alt="top"/>
+                    <img src={clothesStore.getClothingItemById(filteredOutfits[outfitCount].bottomid).img} alt="bottom"/>
                 </div>
-                <Button type="inverse">Next Outfit</Button>
+                <Button type="inverse" on:click={()=>traverseOutfits()}>Next Outfit</Button>
             </div>
         </div>
         <div class="split_container">
-            <Button on:click={()=>toggleOutfitShowing()}>Return to Preferences</Button>
+            <Button on:click={()=>toggleOutfitShowing()} on:click={()=>clearPopoverItems()}>Return to Preferences</Button>
             <Button>Submit Outfit Choice</Button>
         </div> 
     {/if}

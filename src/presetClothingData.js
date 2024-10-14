@@ -23,6 +23,7 @@ export const presetClothes = [
             temphigh: 70,
             templow: 40,
         },
+        clean: true,
     },
     {
         id: 3,
