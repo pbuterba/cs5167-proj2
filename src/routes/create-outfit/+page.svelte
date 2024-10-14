@@ -104,34 +104,39 @@
 		<svelte:fragment slot="contents">
 			<TabContent tabnum="1">
 				<div class="body">
-					<!-- Select Shirt Section -->
-					<div class="select_item">
-						<div class="select_shirt">
-							<Header type="subheader">Select Shirt</Header>
-							<div class="carousel">
-								<Button on:click={previousShirt}>Previous Shirt</Button>
-								{#if selectedShirt}
-									<img src={selectedShirt.img} alt={selectedShirt.name} style="max-width: 200px;" />
-								{/if}
-								<Button on:click={nextShirt}>Next Shirt</Button>
+					<div class="selection">
+						<!-- Select Shirt Section -->
+						<div class="select_item">
+							<div class="select_shirt">
+								<Header type="subheader">Select Shirt</Header>
+								<div class="carousel">
+									<Button on:click={previousShirt}>Previous Shirt</Button>
+									{#if selectedShirt}
+										<img
+											src={selectedShirt.img}
+											alt={selectedShirt.name}
+											style="max-width: 200px;"
+										/>
+									{/if}
+									<Button on:click={nextShirt}>Next Shirt</Button>
+								</div>
+							</div>
+						</div>
+
+						<!-- Select Pants Section -->
+						<div class="select_item">
+							<div class="select_pants">
+								<Header type="subheader">Select Pants</Header>
+								<div class="carousel">
+									<Button on:click={previousPant}>Previous Pant</Button>
+									{#if selectedPant}
+										<img src={selectedPant.img} alt={selectedPant.name} style="max-width: 200px;" />
+									{/if}
+									<Button on:click={nextPant}>Next Pant</Button>
+								</div>
 							</div>
 						</div>
 					</div>
-
-					<!-- Select Pants Section -->
-					<div class="select_item">
-						<div class="select_pants">
-							<Header type="subheader">Select Pants</Header>
-							<div class="carousel">
-								<Button on:click={previousPant}>Previous Pant</Button>
-								{#if selectedPant}
-									<img src={selectedPant.img} alt={selectedPant.name} style="max-width: 200px;" />
-								{/if}
-								<Button on:click={nextPant}>Next Pant</Button>
-							</div>
-						</div>
-					</div>
-
 					<!-- Save Outfit Section -->
 					<div class="save_outfit">
 						<div>
@@ -192,9 +197,14 @@
 
 	.body {
 		display: flex;
+		width: 100%;
 		flex-direction: column;
 		align-items: center;
-		width: 100%;
+		gap: 16px;
+	}
+	.selection {
+		display: flex;
+		flex-direction: row;
 		gap: 16px;
 	}
 	.select_shirt,
@@ -204,15 +214,14 @@
 		outline-style: solid;
 		outline-color: var(--color-green);
 		border-radius: 10px;
-		height: 280px;
-		width:400px;
+		height: 330px;
+		width: 450px;
 	}
 
 	.select_shirt img,
 	.select_pants img {
-		height: 250px;
-		width: 200px;
-		
+		height: 300px;
+		width: 250px;
 	}
 
 	.select_item {
@@ -223,6 +232,7 @@
 	.save_outfit {
 		display: flex;
 		flex-direction: column;
+		gap: 8px;
 	}
 
 	.carousel {
@@ -241,17 +251,16 @@
 		flex-direction: row;
 		justify-content: center;
 	}
-	.outfit-pants, 
+	.outfit-pants,
 	.outfit-shirt {
 		text-align: center;
 	}
 	.outfit-pants img,
 	.outfit-shirt img {
-		height:250px;
+		height: 250px;
 		width: 175px;
 	}
 	.accordion-img {
 		height: max-content;
 	}
-
 </style>
