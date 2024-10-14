@@ -1,6 +1,5 @@
 <script>
     import Header from '$lib/components/Header/Header.svelte';
-    import Checkbox from '$lib/components/Checkbox/Checkbox.svelte';
     import Button from '$lib/components/Button/Button.svelte';
     import Popover from '$lib/components/Popover/Popover.svelte';
     import PopoverMultiSelectContent from '$lib/components/Popover/CustomPopoverTrigger/PopoverMultiSelectContent.svelte';
@@ -16,7 +15,6 @@
     
     function filterOutfits() {
         filteredOutfits = outfitStore.getOutfitByFilters(clothingFiltersTEMP);
-        alert(JSON.stringify(filteredOutfits));
     }
     
     function toggleOutfitShowing() {
@@ -26,7 +24,6 @@
 
     function handlePopoverItemsChanged(event) {
 		popoverItems = event.detail.selectedItems;
-        alert("item changed");
 	}
 
     let preferenceItems = [
@@ -42,15 +39,15 @@
         <div class="box">
             <Header type="h2">What type of outfit are you looking for today? </Header> <br>
             
-            <div class="popover_content">
-                <Popover on:popoverItemsChanged={handlePopoverItemsChanged}>
-                    <PopoverChipTrigger class="popover_content" slot="trigger" label="Preferences" />
-                    <PopoverMultiSelectContent class="popover_content" slot="content" items={preferenceItems} />
-                </Popover>
+            <div class="split_container">
+                <div class="popover_content">
+                    <Popover on:popoverItemsChanged={handlePopoverItemsChanged}>
+                        <PopoverChipTrigger class="popover_content" slot="trigger" label="Preferences" />
+                        <PopoverMultiSelectContent class="popover_content" slot="content" items={preferenceItems} />
+                    </Popover>
+                </div>
+                <Button on:click={()=>toggleOutfitShowing()} on:click={()=>filterOutfits()}>Submit Preferences</Button>
             </div>
-            <br> <br>
-            
-            <Button on:click={()=>toggleOutfitShowing()} on:click={()=>filterOutfits()}>Submit Preferences</Button>
         </div>
     {:else}
         <Header type="h1">Outfit Suggestions </Header>
@@ -62,7 +59,7 @@
                 <img src={clothesStore.getClothingItemById(filteredOutfits[0].bottomid).img} alt="bottom"/>
             </div>
         </div>
-        <div class="header_container">
+        <div class="split_container">
             <Button on:click={()=>toggleOutfitShowing()}>Return to Preferences</Button>
             <Button>Submit Outfit Choice</Button>
         </div> 
@@ -80,12 +77,11 @@
 		gap: 16px;
 	}
 
-    .header_container {
+    .split_container {
         display: flex;
         justify-content: space-between;
         align-items: center;
         width: 100%;
-        background-color: var(--color-baige-dark);
         padding: 5%;
         border-radius: 40px;
         box-sizing: border-box;
@@ -97,10 +93,11 @@
     }
 
     .box {
-        background-color: var(--color-baige-dark);
+        background-color: var(--color-baige);
         border: 5px solid var(--color-navy-dark);
         border-radius: 40px;
         padding: 5%;
+        height: fit-content;
     }
 
     .img_wrapper img {
@@ -126,7 +123,7 @@
 	}
 
     .popover_content {
-        padding-top: 5%;
+        padding-top: 0%;
     }
 
 </style>
