@@ -1,35 +1,16 @@
 <script>
 	import WeatherDisplayCondition from './WeatherDisplayCondition.svelte';
-
-	let location = 'Cincinnati';
-	let baseUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}`;
-	let apikey = import.meta.env.VITE_API_KEY;
-	let apiParams = {
-		include: 'days'
-	};
+	import { temperatureStore } from '../../utilities/stores';
 
 	let temp;
 	let condition;
-	let isRaining = false;
+	let isRaining;
 
-	const queryString = new URLSearchParams(apiParams).toString();
-
-	function updateWeather(weatherInfo) {
-		let today = weatherInfo.days[0];
-		temp = today.temp;
-		condition = today.conditions;
-		isRaining = today.preciptype?.includes('rain');
-	}
-
-	fetch(`${baseUrl}?${queryString}&key=${apikey}`)
-		.then((response) => {
-			if (!response.ok) {
-				throw new Error('Network response was not ok');
-			}
-			return response.json();
-		})
-		.then((data) => updateWeather(data))
-		.catch((error) => console.error('Fetch error:', error));
+	temperatureStore.subscribe((value) => {
+		temp = value.temp;
+		condition = value.condition;
+		isRaining = value.isRaining;
+	});
 </script>
 
 <div class="weather-display">

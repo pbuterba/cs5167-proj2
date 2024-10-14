@@ -1,7 +1,54 @@
-import { writable } from 'svelte/store';
+import { get, writable } from 'svelte/store';
 import { presetClothes } from '../../presetClothingData';
 import { presetOutfits } from '../../presetOutfitData';
 
+
+function createTemperatureStore() {
+    const { subscribe, set } = writable({
+        temp: 0,
+        condition: '',
+        isRaining: false,
+    });
+
+    let location = 'Cincinnati';
+    let baseUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}`;
+    let apikey = import.meta.env.VITE_API_KEY;
+    let apiParams = {
+        include: 'days'
+    };
+
+    const queryString = new URLSearchParams(apiParams).toString();
+
+    async function updateWeather() {
+        fetch(`${baseUrl}?${queryString}&key=${apikey}`)
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then((data) => {
+                let today = data.days[0];
+                console.log(today);
+                let temp = Math.round(today.temp);
+                let condition = today.conditions;
+                let isRaining = today.preciptype?.includes('rain');
+                set({ temp, condition, isRaining });
+            })
+            .catch((error) => console.error('Fetch error:', error));
+    }
+
+    updateWeather();
+
+    return {
+        subscribe,
+        updateWeather: () => {
+            updateWeather();
+        },
+    }
+}
+
+export const temperatureStore = createTemperatureStore();
 
 function createMousePositionStore(initValues) {
     const { subscribe, set } = writable(initValues);
@@ -66,8 +113,10 @@ function createClothesStore() {
         getClothingItemByFilters: (filterQuery) => {
             let itemsOfFilters;
             update(items => {
-                itemsOfFilters = items.filter((item) => {item.filters.cozy === filterQuery.cozy && item.filters.formal === filterQuery.formal
-                    && outfit.filters.temphigh >= filterQuery.temp && outfit.filters.templow <= filterQuery.temp; });
+                itemsOfFilters = items.filter((item) => {
+                    item.filters.cozy === filterQuery.cozy && item.filters.formal === filterQuery.formal
+                        && outfit.filters.temphigh >= filterQuery.temp && outfit.filters.templow <= filterQuery.temp;
+                });
                 return items;
             });
             return itemsOfFilters;
@@ -139,8 +188,8 @@ function createOutfitStore() {
             let outfitsOfFilters;
             update(outfits => {
                 outfitsOfFilters = outfits.filter(outfit => outfit.filters.cozy === filterQuery.cozy && outfit.filters.formal === filterQuery.formal &&
-                                    outfit.filters.temphigh >= filterQuery.temp && outfit.filters.templow <= filterQuery.temp);
-                return outfits;      
+                    outfit.filters.temphigh >= filterQuery.temp && outfit.filters.templow <= filterQuery.temp);
+                return outfits;
             });
             return outfitsOfFilters;
         },
