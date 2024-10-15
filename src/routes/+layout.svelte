@@ -2,6 +2,7 @@
 	import Header from '$lib/components/Header/Header.svelte';
 	import { page } from '$app/stores';
 	import Button from '../lib/components/Button/Button.svelte';
+	import WeatherDisplay from '../lib/components/WeatherDisplay/WeatherDisplay.svelte';
 </script>
 
 <main>
@@ -31,6 +32,11 @@
 					</svg>
 				</Button>
 			</span>
+		</div>
+	{/if}
+	{#if $page.data.showWeather}
+		<div class="weather">
+			<WeatherDisplay />
 		</div>
 	{/if}
 	<div class="app">
@@ -129,5 +135,11 @@
 		left: 8px;
 		top: 8px;
 		width: fit-content;
+	}
+
+	.weather {
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 </style>
