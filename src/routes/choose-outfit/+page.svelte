@@ -1,7 +1,7 @@
 <script>
     // TO DO:
-    // 1. Only allow it to mark outfits that both clothing items are clean
     // 2. Implement Submit Outfit Choice Button
+    // 3. Update temperature store
 
     import Header from '$lib/components/Header/Header.svelte';
     import Button from '$lib/components/Button/Button.svelte';
@@ -44,6 +44,16 @@
             }
         });
         filteredOutfits = outfitStore.getOutfitByFilters(clothingFilters);
+        
+        // Ensure the outfits are clean
+        let loopCount = 0;
+        filteredOutfits.forEach(outfit => {
+            if (clothesStore.isClothingItemClean(outfit.topid) == false || clothesStore.isClothingItemClean(outfit.bottomid) == false) {
+                filteredOutfits.splice(loopCount, 1);
+            }
+            loopCount = loopCount + 1;
+        });
+
         if (filteredOutfits.length == 0) {
             alert("There are no outfits that match your preferences. Please select a new preference combination.")
         }
