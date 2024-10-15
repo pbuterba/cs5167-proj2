@@ -3,7 +3,7 @@ import { presetClothes } from '../../presetClothingData';
 import { presetOutfits } from '../../presetOutfitData';
 
 
-function createTemperatureStore() {
+function createWeatherStore() {
     const { subscribe, set } = writable({
         temp: 0,
         condition: '',
@@ -48,7 +48,7 @@ function createTemperatureStore() {
     }
 }
 
-export const temperatureStore = createTemperatureStore();
+export const weatherStore = createWeatherStore();
 
 function createMousePositionStore(initValues) {
     const { subscribe, set } = writable(initValues);

@@ -1,12 +1,12 @@
 <script>
 	import WeatherDisplayCondition from './WeatherDisplayCondition.svelte';
-	import { temperatureStore } from '../../utilities/stores';
+	import { weatherStore } from '../../utilities/stores';
 
 	let temp;
 	let condition;
 	let isRaining;
 
-	temperatureStore.subscribe((value) => {
+	weatherStore.subscribe((value) => {
 		temp = value.temp;
 		condition = value.condition;
 		isRaining = value.isRaining;
