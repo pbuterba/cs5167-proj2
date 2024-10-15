@@ -4,7 +4,7 @@
 
 <div class="home-navigation">
 	<div class="left">
-		<HomeCard color="red" title="Choose Outfit" href="/choose-outfit">
+		<HomeCard color="red" title="Choose Today's Outfit" href="/choose-outfit">
 			<div class="dress">
 				<svg
 					width="368"
@@ -22,7 +22,7 @@
 		</HomeCard>
 	</div>
 	<div class="right">
-		<HomeCard color="green" title="Component Examples" href="/component-examples">
+		<HomeCard color="green" title="My Clothes" href="/component-examples">
 			<div class="tag">
 				<svg
 					width="322"
@@ -38,7 +38,7 @@
 				</svg>
 			</div>
 		</HomeCard>
-		<HomeCard color="navy" title="Create Outfit" href="/create-outfit">
+		<HomeCard color="navy" title="My Outfits" href="/create-outfit">
 			<div class="hanger">
 				<svg
 					width="351"
