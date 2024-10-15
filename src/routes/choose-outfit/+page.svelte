@@ -1,20 +1,17 @@
 <script>
-    // TO DO:
-    // 2. Implement Submit Outfit Choice Button
-    // 3. Update temperature store
-
     import Header from '$lib/components/Header/Header.svelte';
     import Button from '$lib/components/Button/Button.svelte';
     import Popover from '$lib/components/Popover/Popover.svelte';
     import PopoverMultiSelectContent from '$lib/components/Popover/CustomPopoverTrigger/PopoverMultiSelectContent.svelte';
 	import PopoverChipTrigger from '../../lib/components/Popover/CustomPopoverContent/PopoverChipTrigger.svelte';
-    import {outfitStore, clothesStore} from '../../lib/utilities/stores';
+    import {outfitStore, clothesStore, weatherStore} from '../../lib/utilities/stores';
     
     let popoverItems = [];
     let isOutfitShown = false;
     let filteredOutfits = [];
+    let isOutfitSubmitted = false;
 
-    // The DEFAULT temperature is 60 degrees unless specified to use current temp
+    // The DEFAULT temperature is 50 degrees unless specified to use current temp
     let clothingFilters = {cozy:false, formal: false, temp:50}
     let outfitCount = 0
 
@@ -39,8 +36,7 @@
                 clothingFilters.formal = true;
             }
             else if (element.value == 'temp'){
-                // THIS IS TEMP and needs changed when temp store is passed in
-                clothingFilters.temp = 60;
+                clothingFilters.temp = weatherStore.getTemp();
             }
         });
         filteredOutfits = outfitStore.getOutfitByFilters(clothingFilters);
@@ -85,10 +81,18 @@
     function clearPopoverItems() {
         popoverItems = [];
     }
+
+    function submitOutfitChoice() {
+        clothesStore.dirtyClothingItemById(filteredOutfits[outfitCount].topid);
+        clothesStore.dirtyClothingItemById(filteredOutfits[outfitCount].bottomid);
+
+        isOutfitSubmitted = true;
+    }
+
 </script>
 
 <div class="components">
-    {#if isOutfitShown == false}
+    {#if isOutfitShown == false && isOutfitSubmitted == false}
         <div class="box">
             <Header type="h2">What type of outfit are you looking for today? </Header> <br>
             
@@ -102,7 +106,7 @@
                 <Button on:click={()=>filterOutfits()}>Submit Preferences</Button>
             </div>
         </div>
-    {:else}
+    {:else if isOutfitShown == true && isOutfitSubmitted == false}
         <Header type="h1">Outfit Suggestions </Header>
 
         <div class="display_outfit">
@@ -118,11 +122,19 @@
         </div>
         <div class="split_container">
             <Button on:click={()=>toggleOutfitShowing()} on:click={()=>clearPopoverItems()}>Return to Preferences</Button>
-            <Button>Submit Outfit Choice</Button>
-        </div> 
+            <Button on:click={()=>submitOutfitChoice()}>Submit Outfit Choice</Button>
+        </div>
+    {:else}
+    <Header type="h1">Selected Outfit: </Header>
+        <div class="display_outfit">
+            <Header type="h2">{filteredOutfits[outfitCount].name} </Header>
+            <div class="img_wrapper">
+                <img src={clothesStore.getClothingItemById(filteredOutfits[outfitCount].topid).img} alt="top"/>
+                <img src={clothesStore.getClothingItemById(filteredOutfits[outfitCount].bottomid).img} alt="bottom"/>
+            </div>
+        </div>   
     {/if}
 </div>
-
 
 
 <style>
