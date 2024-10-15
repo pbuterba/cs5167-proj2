@@ -141,7 +141,7 @@
 					<div class="save_outfit">
 						<div>
 							<div style="width: 500px;">
-								<TextInput label="Enter Outfit Name" bind:value={outfitName} />
+								<TextInput label="Enter Outfit Name" required bind:value={outfitName} />
 							</div>
 						</div>
 						<div style="display:flex; justify-content:center;">
