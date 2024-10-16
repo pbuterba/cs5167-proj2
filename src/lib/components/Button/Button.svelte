@@ -3,6 +3,7 @@
 	export let href = '';
 	export let target = '';
 	export let type = 'default';
+	export let size = 'md';
 
 	let button;
 	let dispatch = createEventDispatcher();
@@ -16,6 +17,8 @@
 		ripple.classList.add('ripple');
 		if (type === 'empty-baige') {
 			ripple.style.backgroundColor = 'var(--color-baige)';
+		} else if (type === 'empty-white') {
+			ripple.style.backgroundColor = '#ffffff45';
 		} else {
 			ripple.style.backgroundColor = 'var(--color-green)';
 		}
@@ -43,6 +46,8 @@
 	class:inverse={type === 'inverse'}
 	class:empty={type === 'empty'}
 	class:empty-baige={type === 'empty-baige'}
+	class:empty-white={type === 'empty-white'}
+	class:sm={size === 'sm'}
 	{href}
 	{target}
 	on:click={onClick}
@@ -104,6 +109,14 @@
 		align-items: center;
 	}
 
+	.sm .label {
+		height: 18px;
+	}
+
+	.sm {
+		padding: var(--size-xs) var(--size-xs);
+	}
+
 	.inverse .label {
 		color: var(--color-green);
 	}
@@ -123,6 +136,18 @@
 
 	.empty-baige .label {
 		color: var(--color-baige);
+	}
+
+	.empty-white {
+		background-color: transparent;
+	}
+
+	.empty-white:hover {
+		background-color: #ffffff25;
+	}
+
+	.empty-white .label {
+		color: white;
 	}
 
 	:global(.ripple) {
