@@ -91,11 +91,6 @@
         box-sizing: border-box;
     }
 
-    .checkboxes {
-        display: flex;
-        flex-direction: row;
-    }
-
     .box {
         background-color: var(--color-baige-dark);
         border: 5px solid var(--color-navy-dark);
