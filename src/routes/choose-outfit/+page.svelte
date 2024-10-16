@@ -119,8 +119,7 @@
         <svelte:fragment slot="contents">
         <TabContent tabnum="1">
             <div class="box">
-                <Header type="h2">What type of outfit are you looking for today? </Header> <br>
-                
+                <Header type="h2">What type of outfit are you looking for today? </Header> <br>        
                 <div class="split_container">
                     <div class="popover_content">
                         <Popover on:popoverItemsChanged={handlePopoverItemsChanged}>
@@ -128,22 +127,22 @@
                             <PopoverMultiSelectContent class="popover_content" slot="content" items={preferenceItems} />
                         </Popover>
                     </div>
-                    <Button on:click={()=>filterOutfits()}>Submit Preferences</Button>
                 </div>
             </div>
+
+			<br> <br>
             <div class="outfit_cards">
                 {#each $outfitStore as outfit}
                     {#if filteredOutfits.includes(outfit)}
                     <div class="display_outfit">
-                        <Header type="h2">{outfit.name} </Header>
-                        <div class="split_container">
-                            <div class="img_wrapper">
-                                <img src={clothesStore.getClothingItemById(outfit.topid).img} alt="top"/>
-                                <img src={clothesStore.getClothingItemById(outfit.bottomid).img} alt="bottom"/>
-                            </div>
-                            <Button on:click={()=>submitOutfitChoice(outfit.id)}>Submit Outfit Choice</Button>
-                        </div>
+                        <Header type="h2">{outfit.name} </Header>          
+						<div class="img_wrapper">
+							<img src={clothesStore.getClothingItemById(outfit.topid).img} alt="top"/>
+							<img src={clothesStore.getClothingItemById(outfit.bottomid).img} alt="bottom"/>
+						</div>
+						<Button on:click={()=>submitOutfitChoice(outfit.id)}>Submit Outfit Choice</Button>
                     </div>
+					<br>
                     {/if}
                 {/each}
             </div>
@@ -196,10 +195,10 @@
 	}
 
 	.box {
-		background-color: var(--color-baige);
+		background-color: var(--color-surface-darker);
 		border: 5px solid var(--color-navy-dark);
-		border-radius: 40px;
-		padding: 5%;
+		border-radius: 20px;
+		padding: 3%;
 		height: fit-content;
 	}
 
