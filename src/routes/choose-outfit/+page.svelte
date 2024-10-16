@@ -8,11 +8,13 @@
     import Tabs from '$lib/components/Tabs/Tabs.svelte';
 	import TabContent from '$lib/components/Tabs/TabContent.svelte';
 	import TabLabel from '$lib/components/Tabs/TabLabel.svelte';
+    import Toast from '$lib/components/Toast/Toast.svelte'
     
     let popoverItems = [];
     let isOutfitShown = false;
     let filteredOutfits = $outfitStore;
     let isOutfitSubmitted = false;
+    let toast;
 
     // The DEFAULT temperature is 50 degrees unless specified to use current temp
     let clothingFilters = {cozy:false, formal: false, temp:50}
@@ -54,7 +56,7 @@
         });
 
         if (filteredOutfits.length == 0) {
-            alert("There are no outfits that match your preferences. Please select a new preference combination.")
+            toast.addToast();
         }
         else {
             //toggleOutfitShowing();
@@ -152,6 +154,12 @@
         </TabContent>
         </svelte:fragment>
 </Tabs>
+<Toast
+    title="Incorrect Preferences"
+    message='There are no outfits that match your preferences. Please select a new preference combination.'
+    type='error'
+    bind:this={toast}
+/>
 </div>
 
 
