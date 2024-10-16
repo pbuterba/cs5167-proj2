@@ -11,7 +11,9 @@
 	import TabLabel from '$lib/components/Tabs/TabLabel.svelte';
 	import { get, writable } from 'svelte/store';
 	import Header from '$lib/components/Header/Header.svelte';
+	import Toast from '$lib/components/Toast/Toast.svelte';
 	import Text from '$lib/components/Text/Text.svelte';
+
 	let shirts = [];
 	let pants = [];
 	let currentShirtIndex = 0;
@@ -20,7 +22,8 @@
 	let selectedPant = null;
 	let outfitName = '';
 	let savedOutfits = get(outfitStore);
-
+	let toast1;
+	let toast2;
 	// Load all available shirts and pants when the component is mounted
 	onMount(() => {
 		// Initialize shirts and pants from clothesStore
@@ -86,10 +89,10 @@
 	function saveOutfit() {
 		if (outfitName && selectedShirt && selectedPant) {
 			outfitStore.addOutfit(outfitName, selectedShirt.id, selectedPant.id, []); // Add the outfit to the store
-			alert(`Outfit "${outfitName}" saved!`);
+			toast1.addToast();
 			outfitName = ''; // Clear outfit name after saving
 		} else {
-			alert('Please enter an outfit name and select a shirt and pants.');
+			toast2.addToast();
 		}
 		console.log(get(outfitStore));
 	}
@@ -145,9 +148,21 @@
 							</div>
 						</div>
 						<div style="display:flex; justify-content:center;">
-							<Button style="align-items:center" on:click={saveOutfit}>Submit Outfit</Button>
+							<Button style="align-items:center" on:click={saveOutfit}
+								>Save Outfit</Button
+							>
 						</div>
 					</div>
+					<Toast
+						title="Save Outfit"
+						message="{outfitName} has been saved"
+						bind:this={toast1}
+					/>
+					<Toast
+						title="Save Outfit"
+						message='Please enter an outfit name'
+						bind:this={toast2}
+					/>
 				</div>
 			</TabContent>
 
