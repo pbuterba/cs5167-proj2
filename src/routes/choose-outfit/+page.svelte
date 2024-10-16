@@ -11,14 +11,13 @@
     import Toast from '$lib/components/Toast/Toast.svelte'
     
     let popoverItems = [];
-    let isOutfitShown = false;
     let filteredOutfits = $outfitStore;
-    let isOutfitSubmitted = false;
     let toast;
+	let activeTabNumber;
+    $: activeTabNumber = $selectedOutfitId === undefined ? "1":"2";
 
 	// The DEFAULT temperature is 50 degrees unless specified to use current temp
 	let clothingFilters = { cozy: false, formal: false, temp: 50 };
-	let outfitCount = 0;
 
 	let preferenceItems = [
 		{ label: 'Cozy', value: 'cozy' },
@@ -59,50 +58,15 @@
         if (filteredOutfits.length == 0) {
             toast.addToast();
         }
-        else {
-            //toggleOutfitShowing();
-        }
     }
-
-	function traverseOutfits(backwards = false) {
-		if (backwards == true) {
-			if (outfitCount - 1 < 0) {
-				outfitCount = filteredOutfits.length - 1;
-			} else {
-				outfitCount = outfitCount - 1;
-			}
-		} else {
-			if (outfitCount >= filteredOutfits.length - 1) {
-				outfitCount = 0;
-			} else {
-				outfitCount = outfitCount + 1;
-			}
-		}
-	}
-
-	function toggleOutfitShowing() {
-		if (isOutfitShown) {
-			isOutfitShown = false;
-		} else {
-			isOutfitShown = true;
-		}
-	}
 
 	function handlePopoverItemsChanged(event) {
 		popoverItems = event.detail.selectedItems;
         filterOutfits();
 	}
-
-	function clearPopoverItems() {
-		popoverItems = [];
-	}
-
-    let activeTabNumber;
-    $: activeTabNumber = $selectedOutfitId === undefined ? "1":"2";
     
     function submitOutfitChoice(outfitId) {
         selectedOutfitId.update(() => outfitId);
-        isOutfitSubmitted = true;
     }
 
     filterOutfits();
