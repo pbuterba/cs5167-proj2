@@ -10,9 +10,9 @@
 	import Tag from '$lib/components/Tag/Tag.svelte';
 	import Text from '$lib/components/Text/Text.svelte';
 	import TextInput from '$lib/components/TextInput/TextInput.svelte';
-	import PopoverMultiSelectContent from '$lib/components/Popover/CustomPopoverTrigger/PopoverMultiSelectContent.svelte';
+	import PopoverMultiSelectContent from '$lib/components/Popover/CustomPopoverContent/PopoverMultiSelectContent.svelte';
 	import { clothesStore, outfitStore, toggle } from '$lib/utilities/stores.js';
-	import PopoverChipTrigger from '../../lib/components/Popover/CustomPopoverContent/PopoverChipTrigger.svelte';
+	import PopoverChipTrigger from '$lib/components/Popover/CustomPopoverTrigger/PopoverChipTrigger.svelte';
 	import Tabs from '$lib/components/Tabs/Tabs.svelte';
 	import TabContent from '$lib/components/Tabs/TabContent.svelte';
 	import TabLabel from '$lib/components/Tabs/TabLabel.svelte';

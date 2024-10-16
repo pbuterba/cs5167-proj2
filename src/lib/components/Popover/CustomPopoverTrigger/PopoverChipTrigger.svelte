@@ -52,6 +52,7 @@
 		align-items: center;
 		border-radius: 8px;
 		border: 1px solid #adadad;
+		background-color: var(--color-surface);
 	}
 
 	.popover-chip-trigger:hover {
