@@ -2,8 +2,8 @@
 	import Header from '$lib/components/Header/Header.svelte';
 	import Button from '$lib/components/Button/Button.svelte';
 	import Popover from '$lib/components/Popover/Popover.svelte';
-	import PopoverMultiSelectContent from '$lib/components/Popover/CustomPopoverTrigger/PopoverMultiSelectContent.svelte';
-	import PopoverChipTrigger from '$lib/components/Popover/CustomPopoverContent/PopoverChipTrigger.svelte';
+	import PopoverMultiSelectContent from '$lib/components/Popover/CustomPopoverContent/PopoverMultiSelectContent.svelte';
+	import PopoverChipTrigger from '$lib/components/Popover/CustomPopoverTrigger/PopoverChipTrigger.svelte';
 	import { outfitStore, clothesStore, weatherStore } from '$lib/utilities/stores';
 
 	let popoverItems = [];
