@@ -4,11 +4,14 @@
     import Popover from '$lib/components/Popover/Popover.svelte';
     import PopoverMultiSelectContent from '$lib/components/Popover/CustomPopoverTrigger/PopoverMultiSelectContent.svelte';
 	import PopoverChipTrigger from '../../lib/components/Popover/CustomPopoverContent/PopoverChipTrigger.svelte';
-    import {outfitStore, clothesStore, weatherStore} from '../../lib/utilities/stores';
+    import {outfitStore, clothesStore, weatherStore, selectedOutfitId} from '../../lib/utilities/stores';
+    import Tabs from '$lib/components/Tabs/Tabs.svelte';
+	import TabContent from '$lib/components/Tabs/TabContent.svelte';
+	import TabLabel from '$lib/components/Tabs/TabLabel.svelte';
     
     let popoverItems = [];
     let isOutfitShown = false;
-    let filteredOutfits = [];
+    let filteredOutfits = $outfitStore;
     let isOutfitSubmitted = false;
 
     // The DEFAULT temperature is 50 degrees unless specified to use current temp
@@ -54,7 +57,7 @@
             alert("There are no outfits that match your preferences. Please select a new preference combination.")
         }
         else {
-            toggleOutfitShowing();
+            //toggleOutfitShowing();
         }
     }
 
@@ -76,64 +79,79 @@
 
     function handlePopoverItemsChanged(event) {
 		popoverItems = event.detail.selectedItems;
+        filterOutfits();
 	}
 
     function clearPopoverItems() {
         popoverItems = [];
     }
 
-    function submitOutfitChoice() {
-        clothesStore.dirtyClothingItemById(filteredOutfits[outfitCount].topid);
-        clothesStore.dirtyClothingItemById(filteredOutfits[outfitCount].bottomid);
-
+    let activeTabNumber;
+    $: activeTabNumber = $selectedOutfitId === undefined ? "1":"2";
+    
+    function submitOutfitChoice(outfitId) {
+        selectedOutfitId.update(() => outfitId);
         isOutfitSubmitted = true;
     }
+
+    filterOutfits();
 
 </script>
 
 <div class="components">
-    {#if isOutfitShown == false && isOutfitSubmitted == false}
-        <div class="box">
-            <Header type="h2">What type of outfit are you looking for today? </Header> <br>
-            
-            <div class="split_container">
-                <div class="popover_content">
-                    <Popover on:popoverItemsChanged={handlePopoverItemsChanged}>
-                        <PopoverChipTrigger class="popover_content" slot="trigger" label="Preferences" />
-                        <PopoverMultiSelectContent class="popover_content" slot="content" items={preferenceItems} />
-                    </Popover>
+    <Tabs activeTab={activeTabNumber}>
+        <svelte:fragment slot="labels">
+			<TabLabel tabnum="1">Choose Outfit</TabLabel>
+			<TabLabel tabnum="2">Selected Outfit</TabLabel>
+		</svelte:fragment>
+        
+        <svelte:fragment slot="contents">
+        <TabContent tabnum="1">
+            <div class="box">
+                <Header type="h2">What type of outfit are you looking for today? </Header> <br>
+                
+                <div class="split_container">
+                    <div class="popover_content">
+                        <Popover on:popoverItemsChanged={handlePopoverItemsChanged}>
+                            <PopoverChipTrigger class="popover_content" slot="trigger" label="Preferences" />
+                            <PopoverMultiSelectContent class="popover_content" slot="content" items={preferenceItems} />
+                        </Popover>
+                    </div>
+                    <Button on:click={()=>filterOutfits()}>Submit Preferences</Button>
                 </div>
-                <Button on:click={()=>filterOutfits()}>Submit Preferences</Button>
             </div>
-        </div>
-    {:else if isOutfitShown == true && isOutfitSubmitted == false}
-        <Header type="h1">Outfit Suggestions </Header>
+            <div class="outfit_cards">
+                {#each $outfitStore as outfit}
+                    {#if filteredOutfits.includes(outfit)}
+                    <div class="display_outfit">
+                        <Header type="h2">{outfit.name} </Header>
+                        <div class="split_container">
+                            <div class="img_wrapper">
+                                <img src={clothesStore.getClothingItemById(outfit.topid).img} alt="top"/>
+                                <img src={clothesStore.getClothingItemById(outfit.bottomid).img} alt="bottom"/>
+                            </div>
+                            <Button on:click={()=>submitOutfitChoice(outfit.id)}>Submit Outfit Choice</Button>
+                        </div>
+                    </div>
+                    {/if}
+                {/each}
+            </div>
+        </TabContent>
 
-        <div class="display_outfit">
-            <Header type="h2">{filteredOutfits[outfitCount].name} </Header>
-            <div class="split_container">
-                <Button type="inverse" on:click={()=>traverseOutfits(true)}>Previous Outfit</Button>
-                <div class="img_wrapper">
-                    <img src={clothesStore.getClothingItemById(filteredOutfits[outfitCount].topid).img} alt="top"/>
-                    <img src={clothesStore.getClothingItemById(filteredOutfits[outfitCount].bottomid).img} alt="bottom"/>
-                </div>
-                <Button type="inverse" on:click={()=>traverseOutfits()}>Next Outfit</Button>
-            </div>
-        </div>
-        <div class="split_container">
-            <Button on:click={()=>toggleOutfitShowing()} on:click={()=>clearPopoverItems()}>Return to Preferences</Button>
-            <Button on:click={()=>submitOutfitChoice()}>Submit Outfit Choice</Button>
-        </div>
-    {:else}
-    <Header type="h1">Selected Outfit: </Header>
-        <div class="display_outfit">
-            <Header type="h2">{filteredOutfits[outfitCount].name} </Header>
-            <div class="img_wrapper">
-                <img src={clothesStore.getClothingItemById(filteredOutfits[outfitCount].topid).img} alt="top"/>
-                <img src={clothesStore.getClothingItemById(filteredOutfits[outfitCount].bottomid).img} alt="bottom"/>
-            </div>
-        </div>   
-    {/if}
+        <TabContent tabnum="2">
+            {#if $selectedOutfitId != undefined}
+                <Header type="h1">Selected Outfit: </Header>
+                <div class="display_outfit">
+                    <Header type="h2">{outfitStore.getOutfitById($selectedOutfitId).name} </Header>
+                    <div class="img_wrapper">
+                        <img src={clothesStore.getClothingItemById(outfitStore.getOutfitById($selectedOutfitId).topid).img} alt="top"/>
+                        <img src={clothesStore.getClothingItemById(outfitStore.getOutfitById($selectedOutfitId).bottomid).img} alt="bottom"/>
+                    </div>
+                </div>  
+            {/if} 
+        </TabContent>
+        </svelte:fragment>
+</Tabs>
 </div>
 
 
