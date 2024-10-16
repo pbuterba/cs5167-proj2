@@ -2,8 +2,8 @@
     import Header from '$lib/components/Header/Header.svelte';
     import Button from '$lib/components/Button/Button.svelte';
     import Popover from '$lib/components/Popover/Popover.svelte';
-    import PopoverMultiSelectContent from '$lib/components/Popover/CustomPopoverTrigger/PopoverMultiSelectContent.svelte';
-	import PopoverChipTrigger from '../../lib/components/Popover/CustomPopoverContent/PopoverChipTrigger.svelte';
+    import PopoverMultiSelectContent from '$lib/components/Popover/CustomPopoverContent/PopoverMultiSelectContent.svelte';
+	import PopoverChipTrigger from '$lib/components/Popover/CustomPopoverTrigger/PopoverChipTrigger.svelte';
     import {outfitStore, clothesStore, weatherStore, selectedOutfitId} from '../../lib/utilities/stores';
     import Tabs from '$lib/components/Tabs/Tabs.svelte';
 	import TabContent from '$lib/components/Tabs/TabContent.svelte';
@@ -162,13 +162,13 @@
             {/if} 
         </TabContent>
         </svelte:fragment>
-</Tabs>
-<Toast
-    title="Incorrect Preferences"
-    message='There are no outfits that match your preferences. Please select a new preference combination.'
-    type='error'
-    bind:this={toast}
-/>
+	</Tabs>
+	<Toast
+		title="Incorrect Preferences"
+		message='There are no outfits that match your preferences. Please select a new preference combination.'
+		type='error'
+		bind:this={toast}
+	/>
 </div>
 
 <style>
