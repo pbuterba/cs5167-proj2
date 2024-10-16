@@ -45,6 +45,11 @@ function createWeatherStore() {
         updateWeather: () => {
             updateWeather();
         },
+        getTemp: () => {
+            let tempValue;
+            subscribe(state => tempValue = state.temp)();
+            return tempValue;
+        },
     }
 }
 
