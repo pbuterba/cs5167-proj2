@@ -20,7 +20,7 @@
 			condition="partially"
 			disabled={condition !== 'Partially cloudy' || isRaining}
 		/>
-		<WeatherDisplayCondition condition="cloudy" disabled={condition !== 'Overcast' && isRaining} />
+		<WeatherDisplayCondition condition="cloudy" disabled={condition !== 'Overcast' || isRaining} />
 		<WeatherDisplayCondition condition="rainy" disabled={!isRaining} />
 	</div>
 	<div class="divide" />

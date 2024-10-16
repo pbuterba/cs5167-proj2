@@ -14,6 +14,8 @@
 		padding: 8px 16px;
 		background-color: var(--color-surface);
 		box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.2);
+		z-index: 100;
+		border-radius: 8px;
 	}
 
 	.hidden {
