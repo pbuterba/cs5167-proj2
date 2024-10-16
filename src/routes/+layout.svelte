@@ -3,6 +3,13 @@
 	import { page } from '$app/stores';
 	import Button from '../lib/components/Button/Button.svelte';
 	import WeatherDisplay from '../lib/components/WeatherDisplay/WeatherDisplay.svelte';
+	import Flyout from '$lib/components/Flyout/Flyout.svelte';
+	import { toggle } from '$lib/utilities/stores.js';
+	import dresserImage from '$lib/img/dresser.png'
+
+	function handleClick() {
+		toggle('flyout1');
+	}
 </script>
 
 <main>
@@ -46,6 +53,20 @@
 			<slot />
 		</div>
 	</div>
+	<Button on:click={handleClick}>Flyout Button</Button>
+	<Flyout id="flyout1" header="Smart Dresser">
+		<div slot="flyout-body">
+			<img
+				class="shrek"
+				src={dresserImage}
+				alt="shrek"
+			/>
+			<p>This is where the information will go</p>
+		</div>
+		<div slot="flyout-footer" class="flyout-actions">
+			<p>This is the footer</p>
+		</div>
+	</Flyout>
 </main>
 
 <style>
