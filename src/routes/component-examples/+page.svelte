@@ -17,6 +17,7 @@
 	import TabContent from '$lib/components/Tabs/TabContent.svelte';
 	import TabLabel from '$lib/components/Tabs/TabLabel.svelte';
 	import StandardContentLayout from '$lib/components/StandardContentLayout/StandardContentLayout.svelte';
+	import Toast from '$lib/components/Toast/Toast.svelte';
 
 	function handleChange(event) {
 		console.log(event.detail.value);
@@ -34,6 +35,7 @@
 	];
 
 	let popoverItems = [];
+	let toast;
 
 	function handlePopoverItemsChanged(event) {
 		popoverItems = event.detail.selectedItems;
@@ -81,10 +83,11 @@
 					<TextInput label="This is an Input" required on:change={handleChange} />
 					<div class="buttons">
 						<Button on:click={handleClick}>This is a Default Button</Button>
-						<Button type="inverse">This is an Inverse Button</Button>
+						<Button type="inverse" on:click={toast?.addToast()}>This is an Inverse Button</Button>
 						<Button type="empty">This is an Empty Button</Button>
 					</div>
 					<Text>Click the Default Button to see a flyout</Text>
+					<Text>Click the Inverse Button to see a Toast</Text>
 					<div class="checkboxes">
 						<Checkbox label="Checkbox" required on:change={handleChange} />
 					</div>
@@ -115,6 +118,11 @@
 							<Tag>{item.label}</Tag>
 						{/each}
 					</div>
+					<Toast
+						title="This is a toast"
+						message="Use this to show temporary info, like a task was completed, or failed."
+						bind:this={toast}
+					/>
 				</StandardContentLayout>
 			</TabContent>
 			<TabContent tabnum="3">
