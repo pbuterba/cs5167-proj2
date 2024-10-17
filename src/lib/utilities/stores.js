@@ -250,6 +250,9 @@ function createOutfitStore() {
 
 export const outfitStore = createOutfitStore();
 
+export const selectedOutfitId = writable(undefined);
+
+
 
 
 /**
