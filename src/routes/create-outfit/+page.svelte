@@ -3,16 +3,18 @@
 	import AccordionBody from '$lib/components/Accordion/AccordionBody.svelte';
 	import AccordionHeader from '$lib/components/Accordion/AccordionHeader.svelte';
 	import Button from '$lib/components/Button/Button.svelte';
-	import TextInput from '$lib/components/TextInput/TextInput.svelte';
 	import { clothesStore, outfitStore } from '$lib/utilities/stores.js';
-	import { onMount } from 'svelte';
 	import Tabs from '$lib/components/Tabs/Tabs.svelte';
 	import TabContent from '$lib/components/Tabs/TabContent.svelte';
 	import TabLabel from '$lib/components/Tabs/TabLabel.svelte';
-	import { get, writable } from 'svelte/store';
 	import Header from '$lib/components/Header/Header.svelte';
 	import Toast from '$lib/components/Toast/Toast.svelte';
 	import Text from '$lib/components/Text/Text.svelte';
+	import TextInput from '$lib/components/TextInput/TextInput.svelte';
+
+	import { get } from 'svelte/store';
+	import { onMount } from 'svelte';
+	
 
 	let shirts = [];
 	let pants = [];

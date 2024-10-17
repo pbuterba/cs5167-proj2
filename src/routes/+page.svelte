@@ -1,5 +1,12 @@
 <script>
 	import HomeCard from '$lib/components/HomeCard/HomeCard.svelte';
+	import Flyout from '$lib/components/Flyout/Flyout.svelte';
+	import { toggle } from '$lib/utilities/stores.js';
+	import Button from '$lib/components/Button/Button.svelte';
+
+	function handleClick() {
+		toggle('flyout1');
+	}
 </script>
 
 <div class="home-navigation">
@@ -55,7 +62,18 @@
 			</div>
 		</HomeCard>
 	</div>
+	<Button on:click={handleClick}>Button</Button>
 </div>
+<Flyout id="flyout1" header="Simulated Actions">
+	<div slot="flyout-body">
+		<Button>Add Clothes</Button>
+		<Button>Do Laundry</Button>
+
+	</div>
+	<div slot="flyout-footer" class="flyout-actions">
+		<Button type="inverse">Cancel</Button><Button>Save</Button>
+	</div>
+</Flyout>
 
 <style>
 	.home-navigation {
@@ -96,4 +114,11 @@
 		left: 0;
 		bottom: -5px;
 	}
+	.flyout-actions {
+		display: flex;
+		justify-content: flex-end;
+		gap: 8px;
+		width: 100%;
+	}
+
 </style>
