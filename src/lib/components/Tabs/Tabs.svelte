@@ -3,8 +3,10 @@
 	import { createTabsStore } from './tabsStore.js';
 
 	export let activeTab;
+	export function changeTab(tabnum) {
+		tabsStore.setActiveTab(tabnum);
+	}
 
-	let dispatch = createEventDispatcher();
 	const tabsStore = createTabsStore(activeTab);
 
 	setContext('tabsStore', tabsStore);
