@@ -54,17 +54,26 @@
 		</div>
 	</div>
 	<Button on:click={handleClick}>Flyout Button</Button>
-	<Flyout id="flyout1" header="Smart Dresser">
+	<Flyout id="flyout1" header="Smart Dresser" subheader="Dresser Image">
 		<div slot="flyout-body">
 			<img
-				class="shrek"
+				class="dresser"
 				src={dresserImage}
-				alt="shrek"
+				alt="dresser"
 			/>
-			<p>This is where the information will go</p>
+			<Header type="subheader">Description</Header>
+			<p>The smart dresser always users several important functionalites. The dresser allows the selection of outfits from a 
+				preset list of outfits. The dressers allows clothes to be both added and removed from the dresser when new clothes
+				are bought and given away. The dressere allows the user to create their own outfits to be selected later within the
+				choose outfit tab.
+			</p>
 		</div>
 		<div slot="flyout-footer" class="flyout-actions">
-			<p>This is the footer</p>
+			<Header type="subheader">Sample Functionality</Header>
+			<div class="split_container">
+				<Button>Take Clothes Out</Button>
+				<Button>Place Clothes In</Button>
+			</div>
 		</div>
 	</Flyout>
 </main>
@@ -162,5 +171,19 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
+	}
+	.dresser {
+		width: 100%;
+	}
+	.split_container {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		width: 100%;
+		padding: 0;
+		border-radius: 40px;
+		box-sizing: border-box;
+		margin-right: 20px;
+		margin-top: 10px;
 	}
 </style>
