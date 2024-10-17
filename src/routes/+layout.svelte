@@ -3,6 +3,34 @@
 	import { page } from '$app/stores';
 	import Button from '../lib/components/Button/Button.svelte';
 	import WeatherDisplay from '../lib/components/WeatherDisplay/WeatherDisplay.svelte';
+	import Flyout from '$lib/components/Flyout/Flyout.svelte';
+	import { toggle, clothesStore } from '$lib/utilities/stores.js';
+	import dresserImage from '$lib/img/dresser.png'
+	import { presetClothes } from '../presetClothingData';
+	import Checkbox from '$lib/components/Checkbox/Checkbox.svelte';
+	import Text from '$lib/components/Text/Text.svelte';
+
+	let cleanItems = presetClothes.filter(item => clothesStore.isClothingItemClean(item.id));
+  	let dirtyItems = presetClothes.filter(item => !clothesStore.isClothingItemClean(item.id));
+
+	function handleClick() {
+		toggle('flyout1');
+	}
+
+	function handleChange(clothingItem) {
+		if (clothesStore.isClothingItemClean(clothingItem.id) == true) {
+			clothesStore.dirtyClothingItemById(clothingItem.id);
+		}
+		else {
+			clothesStore.cleanClothingItemById(clothingItem.id);
+		}
+		updateItems();
+	}
+
+	function updateItems() {
+		cleanItems = presetClothes.filter(item => clothesStore.isClothingItemClean(item.id));
+  		dirtyItems = presetClothes.filter(item => !clothesStore.isClothingItemClean(item.id));
+	}
 </script>
 
 <main>
@@ -37,6 +65,7 @@
 	{#if $page.data.showWeather}
 		<div class="weather">
 			<WeatherDisplay />
+			<Button type="empty" on:click={handleClick}>View Dresser Description</Button>
 		</div>
 	{/if}
 	<div class="app">
@@ -46,6 +75,31 @@
 			<slot />
 		</div>
 	</div>
+	<Flyout id="flyout1" header="Smart Dresser" subheader="Dresser Image">
+		<div slot="flyout-body">
+			<img 
+				class="dresser"
+				src={dresserImage}
+				alt="dresser"
+			/>
+			<Header type="subheader">Description</Header> <br> <br>
+			<Text> The smart dresser offers several key features. There are 3 tabs, Choose Today's Outfit, My Clothes, and My Outfits.
+				In My Clothes, users can add and remove clothing items from the dresser. In My Outfits, users can create their own presaved
+				outfits. In Choose Today's Outfits, users can select from their presaved outfits based upon preferences. 
+			</Text> <br> <br>
+			<Header type="subheader">Sample Functionality</Header> <br> <br>
+			<Header type="subheader">Items in Dresser</Header>
+			{#each cleanItems as clothingItem}
+				<Checkbox label={clothingItem.name} checked={clothesStore.isClothingItemClean(clothingItem.id)} on:change={()=>handleChange(clothingItem)}/>	
+			{/each}
+			<br><Header type="subheader">Items Out of Dresser</Header>
+			{#each dirtyItems as clothingItem}
+				<Checkbox label={clothingItem.name} checked={clothesStore.isClothingItemClean(clothingItem.id)} on:change={()=>handleChange(clothingItem)}/>
+			{/each}
+		</div>
+		<div slot="flyout-footer" class="flyout-actions">
+		</div>
+	</Flyout>
 </main>
 
 <style>
@@ -141,5 +195,19 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
+	}
+	.dresser {
+		width: 100%;
+	}
+	.split_container {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		width: 100%;
+		padding: 0;
+		border-radius: 40px;
+		box-sizing: border-box;
+		margin-right: 20px;
+		margin-top: 10px;
 	}
 </style>
