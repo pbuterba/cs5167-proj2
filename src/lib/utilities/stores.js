@@ -141,6 +141,10 @@ function createClothesStore() {
             update((items) => items.map((item) => ({ ...item, clean: true })));
         },
 
+        dirtyAllClothes: () => {
+            update((items) => items.map((item) => ({ ...item, clean: false })));
+        },
+
         cleanClothingItemById: (id) => {
             update((items) =>
                 items.map((item) => (item.id === id ? { ...item, clean: true } : item))
