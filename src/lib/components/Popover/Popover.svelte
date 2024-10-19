@@ -1,7 +1,7 @@
 <script>
 	import { createPopper } from '@popperjs/core';
 	import { createEventDispatcher, onMount, setContext } from 'svelte';
-	import { createPopoverStore } from './PopoverStore.js';
+	import { createPopoverStore } from './popoverStore.js';
 
 	export let id = '';
 	export let selectedItems = [];
