@@ -1,4 +1,5 @@
 export const load = () => ({
     hasHeader: false,
-    showWeather: true
+    showWeather: true,
+    showAlert: true,
 }) 

@@ -5,13 +5,16 @@
 	import WeatherDisplay from '../lib/components/WeatherDisplay/WeatherDisplay.svelte';
 	import Flyout from '$lib/components/Flyout/Flyout.svelte';
 	import { toggle, clothesStore } from '$lib/utilities/stores.js';
-	import dresserImage from '$lib/img/dresser.png'
+	import dresserImage from '$lib/img/dresser.png';
 	import { presetClothes } from '../presetClothingData';
 	import Checkbox from '$lib/components/Checkbox/Checkbox.svelte';
 	import Text from '$lib/components/Text/Text.svelte';
+	import Popover from '$lib/components/Popover/Popover.svelte';
+	import PopoverTrigger from '$lib/components/Popover/PopoverTrigger.svelte';
+	import PopoverContent from '$lib/components/Popover/PopoverContent.svelte';
 
-	let cleanItems = presetClothes.filter(item => clothesStore.isClothingItemClean(item.id));
-  	let dirtyItems = presetClothes.filter(item => !clothesStore.isClothingItemClean(item.id));
+	let cleanItems = presetClothes.filter((item) => clothesStore.isClothingItemClean(item.id));
+	let dirtyItems = presetClothes.filter((item) => !clothesStore.isClothingItemClean(item.id));
 
 	function handleClick() {
 		toggle('flyout1');
@@ -20,16 +23,15 @@
 	function handleChange(clothingItem) {
 		if (clothesStore.isClothingItemClean(clothingItem.id) == true) {
 			clothesStore.dirtyClothingItemById(clothingItem.id);
-		}
-		else {
+		} else {
 			clothesStore.cleanClothingItemById(clothingItem.id);
 		}
 		updateItems();
 	}
 
 	function updateItems() {
-		cleanItems = presetClothes.filter(item => clothesStore.isClothingItemClean(item.id));
-  		dirtyItems = presetClothes.filter(item => !clothesStore.isClothingItemClean(item.id));
+		cleanItems = presetClothes.filter((item) => clothesStore.isClothingItemClean(item.id));
+		dirtyItems = presetClothes.filter((item) => !clothesStore.isClothingItemClean(item.id));
 	}
 </script>
 
@@ -77,29 +79,61 @@
 	</div>
 	<Flyout id="flyout1" header="Smart Dresser" subheader="Dresser Image">
 		<div slot="flyout-body">
-			<img 
-				class="dresser"
-				src={dresserImage}
-				alt="dresser"
-			/>
-			<Header type="subheader">Description</Header> <br> <br>
-			<Text> The smart dresser offers several key features. There are 3 tabs, Choose Today's Outfit, My Clothes, and My Outfits.
-				In My Clothes, users can add and remove clothing items from the dresser. In My Outfits, users can create their own presaved
-				outfits. In Choose Today's Outfits, users can select from their presaved outfits based upon preferences. 
-			</Text> <br> <br>
-			<Header type="subheader">Sample Functionality</Header> <br> <br>
+			<img class="dresser" src={dresserImage} alt="dresser" />
+			<Header type="subheader">Description</Header> <br /> <br />
+			<Text>
+				The smart dresser offers several key features. There are 3 tabs, Choose Today's Outfit, My
+				Clothes, and My Outfits. In My Clothes, users can add and remove clothing items from the
+				dresser. In My Outfits, users can create their own presaved outfits. In Choose Today's
+				Outfits, users can select from their presaved outfits based upon preferences.
+			</Text> <br /> <br />
+			<Header type="subheader">Sample Functionality</Header> <br /> <br />
 			<Header type="subheader">Items in Dresser</Header>
 			{#each cleanItems as clothingItem}
-				<Checkbox label={clothingItem.name} checked={clothesStore.isClothingItemClean(clothingItem.id)} on:change={()=>handleChange(clothingItem)}/>	
+				<Checkbox
+					label={clothingItem.name}
+					checked={clothesStore.isClothingItemClean(clothingItem.id)}
+					on:change={() => handleChange(clothingItem)}
+				/>
 			{/each}
-			<br><Header type="subheader">Items Out of Dresser</Header>
+			<br /><Header type="subheader">Items Out of Dresser</Header>
 			{#each dirtyItems as clothingItem}
-				<Checkbox label={clothingItem.name} checked={clothesStore.isClothingItemClean(clothingItem.id)} on:change={()=>handleChange(clothingItem)}/>
+				<Checkbox
+					label={clothingItem.name}
+					checked={clothesStore.isClothingItemClean(clothingItem.id)}
+					on:change={() => handleChange(clothingItem)}
+				/>
 			{/each}
 		</div>
-		<div slot="flyout-footer" class="flyout-actions">
-		</div>
+		<div slot="flyout-footer" class="flyout-actions"></div>
 	</Flyout>
+	{#if dirtyItems.length / $clothesStore.length > 0.6 && $page.data.showAlert}
+		<div class="alert">
+			<Popover>
+				<PopoverTrigger slot="trigger" onhover={true}>
+					<div slot="custom-trigger" class="outer-circle">
+						<div class="inner-circle">
+							<svg
+								width="4"
+								height="14"
+								viewBox="0 0 4 14"
+								fill="none"
+								xmlns="http://www.w3.org/2000/svg"
+							>
+								<path
+									d="M3.72933 11.1364V13.3636C3.72933 13.536 3.67229 13.6851 3.5582 13.8111C3.44411 13.937 3.30901 14 3.15289 14H0.847113C0.690993 14 0.555889 13.937 0.441801 13.8111C0.327714 13.6851 0.27067 13.536 0.27067 13.3636V11.1364C0.27067 10.964 0.327714 10.8149 0.441801 10.6889C0.555889 10.563 0.690993 10.5 0.847113 10.5H3.15289C3.30901 10.5 3.44411 10.563 3.5582 10.6889C3.67229 10.8149 3.72933 10.964 3.72933 11.1364ZM3.99954 0.636364L3.74734 8.27273C3.74134 8.44508 3.67979 8.59422 3.5627 8.72017C3.44561 8.84612 3.30901 8.90909 3.15289 8.90909H0.847113C0.690993 8.90909 0.554388 8.84612 0.437298 8.72017C0.320208 8.59422 0.258661 8.44508 0.252656 8.27273L0.000461894 0.636364C-0.00554273 0.464015 0.0469977 0.314867 0.158083 0.18892C0.269169 0.0629735 0.402771 0 0.558891 0H3.44111C3.59723 0 3.73083 0.0629735 3.84192 0.18892C3.953 0.314867 4.00554 0.464015 3.99954 0.636364Z"
+									fill="white"
+								/>
+							</svg>
+						</div>
+					</div>
+				</PopoverTrigger>
+				<PopoverContent slot="content">
+					<Text slot="custom-content">Your dresser is getting empty!</Text>
+				</PopoverContent>
+			</Popover>
+		</div>
+	{/if}
 </main>
 
 <style>
@@ -209,5 +243,50 @@
 		box-sizing: border-box;
 		margin-right: 20px;
 		margin-top: 10px;
+	}
+
+	.alert {
+		position: absolute;
+		top: 24px;
+		right: 24px;
+		width: 200px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.outer-circle {
+		width: 32px;
+		height: 32px;
+		border-radius: 50%;
+		background-color: transparent;
+		border: 3px solid var(--color-red);
+		box-sizing: border-box;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.inner-circle {
+		width: 22px;
+		height: 22px;
+		border-radius: 50%;
+		background-color: var(--color-red);
+		animation: pulse 1s infinite;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	@keyframes pulse {
+		0% {
+			transform: scale(1);
+		}
+		50% {
+			transform: scale(0.85);
+		}
+		100% {
+			transform: scale(1);
+		}
 	}
 </style>
