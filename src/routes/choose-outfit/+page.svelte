@@ -4,16 +4,26 @@
 	import Popover from '$lib/components/Popover/Popover.svelte';
 	import PopoverMultiSelectContent from '$lib/components/Popover/CustomPopoverContent/PopoverMultiSelectContent.svelte';
 	import PopoverChipTrigger from '$lib/components/Popover/CustomPopoverTrigger/PopoverChipTrigger.svelte';
-	import { outfitStore, clothesStore, weatherStore } from '$lib/utilities/stores';
+	import StandardContentLayout from '$lib/components/StandardContentLayout/StandardContentLayout.svelte';
+	import {
+		outfitStore,
+		clothesStore,
+		weatherStore,
+		selectedOutfitId
+	} from '../../lib/utilities/stores';
+	import Tabs from '$lib/components/Tabs/Tabs.svelte';
+	import TabContent from '$lib/components/Tabs/TabContent.svelte';
+	import TabLabel from '$lib/components/Tabs/TabLabel.svelte';
+	import Toast from '$lib/components/Toast/Toast.svelte';
 
 	let popoverItems = [];
-	let isOutfitShown = false;
-	let filteredOutfits = [];
-	let isOutfitSubmitted = false;
+	let filteredOutfits = $outfitStore;
+	let toast;
+	let tabs;
+	let activeTabNumber = $selectedOutfitId === undefined ? '1' : '2';
 
 	// The DEFAULT temperature is 50 degrees unless specified to use current temp
 	let clothingFilters = { cozy: false, formal: false, temp: 50 };
-	let outfitCount = 0;
 
 	let preferenceItems = [
 		{ label: 'Cozy', value: 'cozy' },
@@ -22,22 +32,31 @@
 	];
 
 	function filterOutfits() {
+
 		// Reset filters so they are properly set each loop.
 		filteredOutfits = [];
 		clothingFilters.cozy = false;
 		clothingFilters.formal = false;
 		clothingFilters.temp = 50;
 
+		let isItemChanged = false;
 		popoverItems.forEach((element) => {
 			if (element.value == 'cozy') {
 				clothingFilters.cozy = true;
+				isItemChanged = true;
 			} else if (element.value == 'formal') {
 				clothingFilters.formal = true;
+				isItemChanged = true;
 			} else if (element.value == 'temp') {
 				clothingFilters.temp = weatherStore.getTemp();
+				isItemChanged = true;
 			}
 		});
-		filteredOutfits = outfitStore.getOutfitByFilters(clothingFilters);
+
+		// If filters are selected, filter the outfits. Otherwise, set the outfits to the entire outfitStore
+		if (isItemChanged) {filteredOutfits = outfitStore.getOutfitByFilters(clothingFilters);}
+		else {filteredOutfits = $outfitStore;}
+		
 
 		// Ensure the outfits are clean
 		let loopCount = 0;
@@ -52,115 +71,96 @@
 		});
 
 		if (filteredOutfits.length == 0) {
-			alert(
-				'There are no outfits that match your preferences. Please select a new preference combination.'
-			);
-		} else {
-			toggleOutfitShowing();
+			toast.addToast();
 		}
-	}
 
-	function traverseOutfits(backwards = false) {
-		if (backwards == true) {
-			if (outfitCount - 1 < 0) {
-				outfitCount = filteredOutfits.length - 1;
-			} else {
-				outfitCount = outfitCount - 1;
-			}
-		} else {
-			if (outfitCount >= filteredOutfits.length - 1) {
-				outfitCount = 0;
-			} else {
-				outfitCount = outfitCount + 1;
-			}
-		}
-	}
-
-	function toggleOutfitShowing() {
-		if (isOutfitShown) {
-			isOutfitShown = false;
-		} else {
-			isOutfitShown = true;
-		}
 	}
 
 	function handlePopoverItemsChanged(event) {
 		popoverItems = event.detail.selectedItems;
+		filterOutfits();
 	}
 
-	function clearPopoverItems() {
-		popoverItems = [];
-	}
-
-	function submitOutfitChoice() {
-		clothesStore.dirtyClothingItemById(filteredOutfits[outfitCount].topid);
-		clothesStore.dirtyClothingItemById(filteredOutfits[outfitCount].bottomid);
-
-		isOutfitSubmitted = true;
+	function submitOutfitChoice(outfitId) {
+		selectedOutfitId.update(() => outfitId);
+		tabs.changeTab('2');
 	}
 </script>
 
 <div class="components">
-	{#if isOutfitShown == false && isOutfitSubmitted == false}
-		<div class="box">
-			<Header type="h2">What type of outfit are you looking for today?</Header> <br />
+	<Tabs activeTab={activeTabNumber} bind:this={tabs}>
+		<svelte:fragment slot="labels">
+			<TabLabel tabnum="1">Choose Outfit</TabLabel>
+			<TabLabel tabnum="2">Selected Outfit</TabLabel>
+		</svelte:fragment>
 
-			<div class="split_container">
-				<div class="popover_content">
-					<Popover on:popoverItemsChanged={handlePopoverItemsChanged}>
-						<PopoverChipTrigger class="popover_content" slot="trigger" label="Preferences" />
-						<PopoverMultiSelectContent
-							class="popover_content"
-							slot="content"
-							items={preferenceItems}
-						/>
-					</Popover>
-				</div>
-				<Button on:click={() => filterOutfits()}>Submit Preferences</Button>
-			</div>
-		</div>
-	{:else if isOutfitShown == true && isOutfitSubmitted == false}
-		<Header type="h1">Outfit Suggestions</Header>
+		<svelte:fragment slot="contents">
+			<TabContent tabnum="1">
+				<StandardContentLayout>
+					<div class="box">
+						<Header type="h2">What type of outfit are you looking for today?</Header>
+						<div class="split_container">
+							<div class="popover_content">
+								<Popover on:popoverItemsChanged={handlePopoverItemsChanged}>
+									<PopoverChipTrigger class="popover_content" slot="trigger" label="Preferences" />
+									<PopoverMultiSelectContent
+										class="popover_content"
+										slot="content"
+										items={preferenceItems}
+									/>
+								</Popover>
+							</div>
+						</div>
+					</div>
+					<div class="outfit_cards">
+						{#each $outfitStore as outfit}
+							{#if filteredOutfits.includes(outfit)}
+								<div class="display_outfit">
+									<Header type="subheader">{outfit.name}</Header>
+									<div class="img_wrapper">
+										<img src={clothesStore.getClothingItemById(outfit.topid).img} alt="top" />
+										<img src={clothesStore.getClothingItemById(outfit.bottomid).img} alt="bottom" />
+									</div>
+									<Button on:click={() => submitOutfitChoice(outfit.id)}>Choose this Outfit</Button>
+								</div>
+							{/if}
+						{/each}
+					</div>
+				</StandardContentLayout>
+			</TabContent>
 
-		<div class="display_outfit">
-			<Header type="h2">{filteredOutfits[outfitCount].name}</Header>
-			<div class="split_container">
-				<Button type="inverse" on:click={() => traverseOutfits(true)}>Previous Outfit</Button>
-				<div class="img_wrapper">
-					<img
-						src={clothesStore.getClothingItemById(filteredOutfits[outfitCount].topid).img}
-						alt="top"
-					/>
-					<img
-						src={clothesStore.getClothingItemById(filteredOutfits[outfitCount].bottomid).img}
-						alt="bottom"
-					/>
-				</div>
-				<Button type="inverse" on:click={() => traverseOutfits()}>Next Outfit</Button>
-			</div>
-		</div>
-		<div class="split_container">
-			<Button on:click={() => toggleOutfitShowing()} on:click={() => clearPopoverItems()}
-				>Return to Preferences</Button
-			>
-			<Button on:click={() => submitOutfitChoice()}>Submit Outfit Choice</Button>
-		</div>
-	{:else}
-		<Header type="h1">Selected Outfit:</Header>
-		<div class="display_outfit">
-			<Header type="h2">{filteredOutfits[outfitCount].name}</Header>
-			<div class="img_wrapper">
-				<img
-					src={clothesStore.getClothingItemById(filteredOutfits[outfitCount].topid).img}
-					alt="top"
-				/>
-				<img
-					src={clothesStore.getClothingItemById(filteredOutfits[outfitCount].bottomid).img}
-					alt="bottom"
-				/>
-			</div>
-		</div>
-	{/if}
+			<TabContent tabnum="2">
+				{#if $selectedOutfitId != undefined}
+					<StandardContentLayout>
+						<Header type="h1">Selected Outfit</Header>
+						<div class="display_outfit full">
+							<Header type="h2">{outfitStore.getOutfitById($selectedOutfitId).name}</Header>
+							<div class="img_wrapper">
+								<img
+									src={clothesStore.getClothingItemById(
+										outfitStore.getOutfitById($selectedOutfitId).topid
+									).img}
+									alt="top"
+								/>
+								<img
+									src={clothesStore.getClothingItemById(
+										outfitStore.getOutfitById($selectedOutfitId).bottomid
+									).img}
+									alt="bottom"
+								/>
+							</div>
+						</div>
+					</StandardContentLayout>
+				{/if}
+			</TabContent>
+		</svelte:fragment>
+	</Tabs>
+	<Toast
+		title="No Outfits Match Selected Preferences"
+		message="There are no outfits that match your preferences. Please select a new preference combination."
+		type="error"
+		bind:this={toast}
+	/>
 </div>
 
 <style>
@@ -172,33 +172,23 @@
 		gap: 16px;
 	}
 
-	.split_container {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		width: 100%;
-		padding: 5%;
-		border-radius: 40px;
-		box-sizing: border-box;
-	}
-
 	.checkboxes {
 		display: flex;
 		flex-direction: row;
 	}
 
 	.box {
-		background-color: var(--color-baige);
-		border: 5px solid var(--color-navy-dark);
-		border-radius: 40px;
-		padding: 5%;
+		display: flex;
+		justify-content: space-between;
+		border-radius: 20px;
+		padding: 8px;
 		height: fit-content;
 	}
 
 	.img_wrapper img {
 		border-radius: 8px;
 		border: 3px solid var(--color-edge);
-		padding: 16px;
+		padding: 4px;
 		width: 200px;
 		height: 200px;
 		object-fit: cover;
@@ -210,7 +200,7 @@
 		gap: 16px;
 		align-items: center;
 		justify-content: center;
-		width: 100%;
+		width: fit-content;
 		border-radius: 8px;
 		box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.1);
 		padding: 16px;
@@ -219,5 +209,17 @@
 
 	.popover_content {
 		padding-top: 0%;
+	}
+
+	.outfit_cards {
+		display: flex;
+		flex-direction: row;
+		gap: 16px;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+
+	.full {
+		width: 100%;
 	}
 </style>
