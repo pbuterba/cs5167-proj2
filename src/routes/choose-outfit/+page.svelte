@@ -148,7 +148,7 @@
 		</svelte:fragment>
 	</Tabs>
 	<Toast
-		title="Incorrect Preferences"
+		title="No Outfits Match Selected Preferences"
 		message="There are no outfits that match your preferences. Please select a new preference combination."
 		type="error"
 		bind:this={toast}
