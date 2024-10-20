@@ -32,22 +32,31 @@
 	];
 
 	function filterOutfits() {
+
 		// Reset filters so they are properly set each loop.
 		filteredOutfits = [];
 		clothingFilters.cozy = false;
 		clothingFilters.formal = false;
 		clothingFilters.temp = 50;
 
+		let isItemChanged = false;
 		popoverItems.forEach((element) => {
 			if (element.value == 'cozy') {
 				clothingFilters.cozy = true;
+				isItemChanged = true;
 			} else if (element.value == 'formal') {
 				clothingFilters.formal = true;
+				isItemChanged = true;
 			} else if (element.value == 'temp') {
 				clothingFilters.temp = weatherStore.getTemp();
+				isItemChanged = true;
 			}
 		});
-		filteredOutfits = outfitStore.getOutfitByFilters(clothingFilters);
+
+		// If filters are selected, filter the outfits. Otherwise, set the outfits to the entire outfitStore
+		if (isItemChanged) {filteredOutfits = outfitStore.getOutfitByFilters(clothingFilters);}
+		else {filteredOutfits = $outfitStore;}
+		
 
 		// Ensure the outfits are clean
 		let loopCount = 0;
@@ -64,6 +73,7 @@
 		if (filteredOutfits.length == 0) {
 			toast.addToast();
 		}
+
 	}
 
 	function handlePopoverItemsChanged(event) {
@@ -75,8 +85,6 @@
 		selectedOutfitId.update(() => outfitId);
 		tabs.changeTab('2');
 	}
-
-	filterOutfits();
 </script>
 
 <div class="components">
