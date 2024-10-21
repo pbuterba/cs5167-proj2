@@ -172,11 +172,6 @@
 		gap: 16px;
 	}
 
-	.checkboxes {
-		display: flex;
-		flex-direction: row;
-	}
-
 	.box {
 		display: flex;
 		justify-content: space-between;
