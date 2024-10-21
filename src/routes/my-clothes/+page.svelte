@@ -12,6 +12,8 @@
     });
 
     let tabs;
+    let selectedItem;
+    let showEditor = false;
 
     function capitalize(text) {
         return text.charAt(0).toUpperCase() + text.substring(1);
@@ -20,6 +22,24 @@
     function addNewItem(itemData) {
         tabs.changeTab("1");
         clothesStore.addClothingItem(itemData.name, itemData.filters, itemData.type, itemData.img);
+    }
+
+    function updateItem(itemData) {
+        showEditor = false;
+        clothesStore.editClothingItemById(itemData.id, itemData.name, itemData.filters, itemData.type, itemData.img);
+    }
+
+    function cancelEditor() {
+        tabs.changeTab("1");
+        showEditor = false;
+    }
+
+    function deleteItem(itemId) {
+        let itemToDelete = clothesStore.getClothingItemById(itemId);
+        let confirmation = confirm("Delete " + itemToDelete.name + "?");
+        if(confirmation) {
+            clothesStore.removeClothingItemById(itemId);
+        }
     }
 
 </script>
@@ -31,46 +51,63 @@
         </div>
         <div class="contents" slot="contents">
             <TabContent tabnum="1">
-                <div class="content-container">
-                    <h1>My clothes:</h1>
-                    <div id="clothes-list">
-                        {#each clothes as clothingItem}
-                            <div class="clothing-item">
-                                {#if clothingItem.img}
-                                    <img src={clothingItem.img} alt={clothingItem.name} width="150" />
-                                {:else}
-                                    <div class="no-img">
-                                        <p>No image available</p>
+                {#if showEditor}
+                    <ClothingItemEditor itemData={selectedItem} on:save={(event) => {updateItem(event.detail)}} on:cancel={() => {cancelEditor()}} />
+                {:else}
+                    <div class="content-container">
+                        <h1>My clothes:</h1>
+                        <div id="clothes-list">
+                            {#each clothes as clothingItem}
+                                <div role="listitem" class="clothing-item" on:mouseenter={() => {selectedItem = clothingItem}} on:mouseleave={() => {selectedItem = null}}>
+                                    <div class="clothing-pic-and-info" class:dirty={!clothingItem.clean}>
+                                        {#if clothingItem.img}
+                                            <img src={clothingItem.img} alt={clothingItem.name} width="150" />
+                                        {:else}
+                                            <div class="no-img">
+                                                <p>No image available</p>
+                                            </div>
+                                        {/if}
+                                        <div class="clothing-item-info">
+                                            <h2>
+                                                {clothingItem.name}
+                                                {#if !clothingItem.clean}
+                                                    <span class="is-dirty">(Dirty)</span>
+                                                {/if}
+                                            </h2>
+                                            <p>{capitalize(clothingItem.type)}</p>
+                                            <div class="filter-tags">
+                                                {#each Object.entries(clothingItem.filters) as [filter, value]}
+                                                    {#if filter === "temphigh"}
+                                                        <div class="filter-tag">
+                                                            <Tag color="red">Good up to {value} degrees</Tag>
+                                                        </div>
+                                                    {:else if filter === "templow"}
+                                                        <div class="filter-tag">
+                                                            <Tag color="blue">Good down to {value} degrees</Tag>
+                                                        </div>
+                                                    {:else if value}
+                                                        <div class="filter-tag">
+                                                            <Tag color="navy">{capitalize(filter)}</Tag>
+                                                        </div>
+                                                    {/if}
+                                                {/each}
+                                            </div>
+                                        </div>
                                     </div>
-                                {/if}
-                                <div class="clothing-item-info">
-                                    <h2>{clothingItem.name}</h2>
-                                    <p>{capitalize(clothingItem.type)}</p>
-                                    <div class="filter-tags">
-                                        {#each Object.entries(clothingItem.filters) as [filter, value]}
-                                            {#if filter === "temphigh"}
-                                                <div class="filter-tag">
-                                                    <Tag color="red">Good up to {value} degrees</Tag>
-                                                </div>
-                                            {:else if filter === "templow"}
-                                                <div class="filter-tag">
-                                                    <Tag color="blue">Good down to {value} degrees</Tag>
-                                                </div>
-                                            {:else if value}
-                                                <div class="filter-tag">
-                                                    <Tag color="navy">{capitalize(filter)}</Tag>
-                                                </div>
-                                            {/if}
-                                        {/each}
+                                    <div class="edit-buttons">
+                                        {#if selectedItem && selectedItem.id === clothingItem.id}
+                                            <button on:click={() => {showEditor = true}}>Edit</button>
+                                            <button on:click={() => {deleteItem(selectedItem.id)}}>Delete</button>
+                                        {/if}
                                     </div>
                                 </div>
-                            </div>
-                        {/each}
+                            {/each}
+                        </div>
                     </div>
-                </div>
+                {/if}
             </TabContent>
             <TabContent tabnum="2">
-                <ClothingItemEditor on:save={(event) => {addNewItem(event.detail)}} on:cancel={() => {tabs.changeTab("1")}} />
+                <ClothingItemEditor on:save={(event) => {addNewItem(event.detail)}} on:cancel={() => {cancelEditor()}} />
             </TabContent>
         </div>
     </Tabs>
@@ -95,10 +132,14 @@
         border-color: lightgray;
         border-style: solid;
         display: flex;
+        justify-content: space-between;
         padding: 1vh 1vw;
     }
     .clothing-item-info * {
         margin: 1vh 1vw;
+    }
+    .clothing-pic-and-info {
+        display: flex;
     }
     .filter-tags {
         display: flex;
@@ -118,5 +159,24 @@
         color: var(--color-navy);
         margin: 1vh 1vw;
         width: 100px;
+    }
+    .edit-buttons {
+        display: flex;
+        align-items: center;
+    }
+    .edit-buttons button {
+        background-color: var(--color-green-darker);
+        color: white;
+        border-radius: 10px;
+        font-size: 1.25rem;
+        margin: auto 0.25vw;
+        padding: 1vh 1vw;
+    }
+    .dirty * {
+        opacity: 0.5;
+    }
+    .is-dirty {
+        font-size: 1.1rem;
+        font-style: italic;
     }
 </style>

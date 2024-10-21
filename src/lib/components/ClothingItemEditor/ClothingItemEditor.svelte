@@ -71,16 +71,19 @@
                 <h3>Clothing type</h3>
                 <div class="option">
                     <label for="top-choice">Top</label>
-                    <input id="top-choice" type="radio" name="clothing-type" value="top" on:change={typeChange} />
+                    <input id="top-choice" type="radio" name="clothing-type" checked={itemData.type === "top"} value="top" on:change={typeChange} />
                 </div>
                 <div class="option">
                     <label for="bottom-choice">Bottom</label>
-                    <input id="bottom-choice" type="radio" name="clothing-type" value="bottom" on:change={typeChange} />
+                    <input id="bottom-choice" type="radio" name="clothing-type" checked={itemData.type === "bottom"} value="bottom" on:change={typeChange} />
                 </div>
             </div>
         </div>
         <div id="photo-select">
-            <input id="image-upload" type="file" accept="image/*" bind:value={itemData.img} hidden={itemData.img === ""} />
+            <input id="image-upload" type="file" accept="image/*" bind:value={itemData.img} hidden />
+            {#if itemData.img}
+                <img src={itemData.img} alt={itemData.name} width="100" />
+            {/if}
             <button id="image-upload-button" on:click={() => {document.getElementById("image-upload").click()}}>Select photo</button>
         </div>
     </div>
@@ -142,6 +145,9 @@
     #photo-select {
         display: flex;
         justify-content: center;
+    }
+    #photo-select * {
+        margin: auto 0.25vw;
     }
     #image-upload-button {
         border-radius: 500px;
