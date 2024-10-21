@@ -84,7 +84,7 @@
                 <img src={itemData.img} alt={itemData.name} width="100" />
             {/if}
             <div id="photo-link-field">
-                <TextInput label="Image URL" bind:value={itemData.img} />
+                <TextInput label="Image URL" required bind:value={itemData.img} />
             </div>
         </div>
     </div>
