@@ -1,6 +1,6 @@
 export const load = () => ({
     hasHeader: true,
-    headerColor: "green",
+    headerColor: "navy",
     header: "Create & View Outfits",
     showAlert: false,
 
