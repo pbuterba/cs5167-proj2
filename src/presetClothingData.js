@@ -1,7 +1,7 @@
 export const presetClothes = [
     {
         id: 1,
-        name: "blue shirt",
+        name: "Blue Shirt",
         img: 'https://www.bulkapparel.com/image/fashion-wear/105366_f_fm.jpg',
         type: "top",
         filters: {
@@ -14,7 +14,7 @@ export const presetClothes = [
     },
     {
         id: 2,
-        name: "black sweat pants",
+        name: "Black Sweat Pants",
         img: 'https://s7d7.scene7.com/is/image/GTMSportswear/70048BU-1?qlt=80,0&resMode=sharp2&fmt=png-alpha&hei=500&wid=500&layer=1&op_colorize=181818',
         type: "bottom",
         filters: {
@@ -27,7 +27,7 @@ export const presetClothes = [
     },
     {
         id: 3,
-        name: "tan sweater",
+        name: "Tan Sweater",
         img: 'https://www.outerknown.com/cdn/shop/products/1410077_SHELTER_WAFFLE_CREW_HCM_1.jpg?v=1676329554',
         type: "top",
         filters: {
@@ -40,7 +40,7 @@ export const presetClothes = [
     },
     {
         id: 4,
-        name: "dark jeans",
+        name: "Dark Jeans",
         img: 'https://www.gap.com/webcontent/0056/081/447/cn56081447.jpg',
         type: "bottom",
         filters: {
@@ -53,7 +53,7 @@ export const presetClothes = [
     },
     {
         id: 5,
-        name: "black shirt",
+        name: "Black Shirt",
         img: 'https://us.sunspel.com/cdn/shop/files/mtsh0181-bkaa-1.jpg?v=1720096619',
         type: "top",
         filters: {
@@ -66,7 +66,7 @@ export const presetClothes = [
     },
     {
         id: 6,
-        name: "khaki pants",
+        name: "Khaki Pants",
         img: 'https://www.untuckit.com/cdn/shop/files/ST-CLAIR-UNTUCKIT-41850Tan-PANTS-SOLID-KHAKI-3.jpg?height=1000&v=1713300464',
         type: "bottom",
         filters: {
@@ -79,7 +79,7 @@ export const presetClothes = [
     },
     {
         id: 7,
-        name: "red crewneck",
+        name: "Red Crewneck",
         img: 'https://www.bobbarker.com/Website%20Images/SWEATSHIRTSZ_Main!01.jpg',
         type: "top",
         filters: {
@@ -92,7 +92,7 @@ export const presetClothes = [
     },
     {
         id: 8,
-        name: "gray sweatpants",
+        name: "Gray Sweatpants",
         img: 'https://media.istockphoto.com/id/1314274760/photo/sport-pants.jpg?s=612x612&w=0&k=20&c=2siBA_21V8CbWXUfQ7ttUqW7ZOzs_d2yjSK8jEtvLw4=',
         type: "bottom",
         filters: {

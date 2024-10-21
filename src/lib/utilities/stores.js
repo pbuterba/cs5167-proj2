@@ -29,7 +29,6 @@ function createWeatherStore() {
             })
             .then((data) => {
                 let today = data.days[0];
-                console.log(today);
                 let temp = Math.round(today.temp);
                 let condition = today.conditions;
                 let isRaining = today.preciptype?.includes('rain');
