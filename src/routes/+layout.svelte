@@ -22,6 +22,7 @@
 
 	function handleClick() {
 		toggle('flyout1');
+		updateItems();
 	}
 
 	function handleChange(clothingItem) {
