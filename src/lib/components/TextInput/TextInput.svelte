@@ -3,18 +3,22 @@
 	export let label = '';
 	export let placeholder = '';
 	export let required = false;
+	export let type = "text";
 	export let value = '';
 
 	const dispatch = createEventDispatcher();
 
+	/* Code to handle dynamic input type from
+	https://stackoverflow.com/questions/57392773/error-type-attribute-cannot-be-dynamic-if-input-uses-two-way-binding */
 	function handleChange(event) {
-		dispatch('change', { value: event.target.value });
+		value = type.match(/^(number|range)$/) ? +event.target.value : event.target.value;
+		dispatch('change', { value: value });
 	}
 </script>
 
 <div class="container">
 	<div class="entryarea">
-		<input type="text" {required} {placeholder} bind:value on:change={handleChange} />
+		<input {required} {placeholder} type={type} on:change={handleChange} />
 		<div class="labelline">
 			{label}
 		</div>
