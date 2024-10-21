@@ -6,15 +6,19 @@
 	import Flyout from '$lib/components/Flyout/Flyout.svelte';
 	import { toggle, clothesStore } from '$lib/utilities/stores.js';
 	import dresserImage from '$lib/img/dresser.png';
-	import { presetClothes } from '../presetClothingData';
 	import Checkbox from '$lib/components/Checkbox/Checkbox.svelte';
 	import Text from '$lib/components/Text/Text.svelte';
 	import Popover from '$lib/components/Popover/Popover.svelte';
 	import PopoverTrigger from '$lib/components/Popover/PopoverTrigger.svelte';
 	import PopoverContent from '$lib/components/Popover/PopoverContent.svelte';
 
-	let cleanItems = presetClothes.filter((item) => clothesStore.isClothingItemClean(item.id));
-	let dirtyItems = presetClothes.filter((item) => !clothesStore.isClothingItemClean(item.id));
+	let clothes = [];
+	clothesStore.subscribe((clothesList) => {
+		clothes = clothesList;
+	});
+
+	let cleanItems = clothes.filter((item) => clothesStore.isClothingItemClean(item.id));
+	let dirtyItems = clothes.filter((item) => !clothesStore.isClothingItemClean(item.id));
 
 	function handleClick() {
 		toggle('flyout1');
@@ -30,8 +34,8 @@
 	}
 
 	function updateItems() {
-		cleanItems = presetClothes.filter((item) => clothesStore.isClothingItemClean(item.id));
-		dirtyItems = presetClothes.filter((item) => !clothesStore.isClothingItemClean(item.id));
+		cleanItems = clothes.filter((item) => clothesStore.isClothingItemClean(item.id));
+		dirtyItems = clothes.filter((item) => !clothesStore.isClothingItemClean(item.id));
 	}
 </script>
 
@@ -232,17 +236,6 @@
 	}
 	.dresser {
 		width: 100%;
-	}
-	.split_container {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		width: 100%;
-		padding: 0;
-		border-radius: 40px;
-		box-sizing: border-box;
-		margin-right: 20px;
-		margin-top: 10px;
 	}
 
 	.alert {
