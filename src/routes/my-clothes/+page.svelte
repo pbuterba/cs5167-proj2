@@ -1,4 +1,5 @@
 <script>
+    import ClothingItemEditor from '$lib/components/ClothingItemEditor/ClothingItemEditor.svelte';
     import Tabs from '$lib/components/Tabs/Tabs.svelte';
     import TabLabel from '$lib/components/Tabs/TabLabel.svelte';
     import TabContent from '$lib/components/Tabs/TabContent.svelte';
@@ -10,13 +11,20 @@
         clothes = clothesList;
     });
 
+    let tabs;
+
     function capitalize(text) {
         return text.charAt(0).toUpperCase() + text.substring(1);
     }
 
+    function addNewItem(itemData) {
+        tabs.changeTab("1");
+        clothesStore.addClothingItem(itemData.name, itemData.filters, itemData.type, itemData.img);
+    }
+
 </script>
 <main id="main-box">
-    <Tabs activeTab="1">
+    <Tabs activeTab="1" bind:this={tabs}>
         <div class="tabs" slot="labels">
             <TabLabel tabnum="1">Manage clothes</TabLabel>
             <TabLabel tabnum="2">Add clothes</TabLabel>
@@ -28,7 +36,13 @@
                     <div id="clothes-list">
                         {#each clothes as clothingItem}
                             <div class="clothing-item">
-                                <img src={clothingItem.img} alt={clothingItem.name} width="150" />
+                                {#if clothingItem.img}
+                                    <img src={clothingItem.img} alt={clothingItem.name} width="150" />
+                                {:else}
+                                    <div class="no-img">
+                                        <p>No image available</p>
+                                    </div>
+                                {/if}
                                 <div class="clothing-item-info">
                                     <h2>{clothingItem.name}</h2>
                                     <p>{capitalize(clothingItem.type)}</p>
@@ -54,6 +68,9 @@
                         {/each}
                     </div>
                 </div>
+            </TabContent>
+            <TabContent tabnum="2">
+                <ClothingItemEditor on:save={(event) => {addNewItem(event.detail)}}/>
             </TabContent>
         </div>
     </Tabs>
@@ -88,5 +105,18 @@
     }
     .filter-tag {
         margin: auto 0.1vw;
+    }
+    .no-img {
+        border: 1px solid black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .no-img p {
+        text-align: center;
+        font-weight: bold;
+        color: var(--color-navy);
+        margin: 1vh 1vw;
+        width: 100px;
     }
 </style>
