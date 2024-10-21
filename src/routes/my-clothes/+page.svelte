@@ -70,7 +70,7 @@
                 </div>
             </TabContent>
             <TabContent tabnum="2">
-                <ClothingItemEditor on:save={(event) => {addNewItem(event.detail)}}/>
+                <ClothingItemEditor on:save={(event) => {addNewItem(event.detail)}} on:cancel={() => {tabs.changeTab("1")}} />
             </TabContent>
         </div>
     </Tabs>

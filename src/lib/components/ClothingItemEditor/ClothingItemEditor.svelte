@@ -3,6 +3,7 @@
     import Button from '../Button/Button.svelte';
     import Checkbox from '../Checkbox/Checkbox.svelte';
     import TextInput from '../TextInput/TextInput.svelte';
+    import Toast from '../Toast/Toast.svelte';
 
     export let itemData = {
         id: 0,
@@ -12,19 +13,22 @@
         filters: {
             cozy: false,
             formal: false,
-            temphigh: 0,
-            templow: 0,
+            temphigh: null,
+            templow: null,
         },
         dirty: false
     };
 
     let newItem = itemData.id === 0;
+    let toast;
 
     const dispatch = createEventDispatcher();
 
     function typeChange(event) {
         itemData.type = event.currentTarget.value;
     }
+
+    $: validData = itemData.name && itemData.type && typeof(itemData.filters.temphigh) === 'number' && typeof(itemData.filters.templow) === 'number';
 
     function resetItemData() {
         document.getElementById("top-choice").checked = false;
@@ -45,8 +49,12 @@
     }
 
     function saveItem() {
-        dispatch('save', itemData);
-        resetItemData();
+        if(validData) {
+            dispatch('save', itemData);
+            resetItemData();
+        } else {
+            toast.addToast();
+        }
     }
 
     function cancel() {
@@ -89,6 +97,13 @@
         <Button on:click={() => {saveItem()}}>{newItem ? "Add" : "Update"}</Button>
         <Button on:click={() => {cancel()}} type="inverse">Cancel</Button>
     </div>
+    <Toast
+        title="Invalid clothing data"
+        message="All clothing items must have a name, highest acceptable temperature, and lowest acceptable temperature, and be marked as either a top or a bottom"
+        type="error"
+        bind:this={toast}
+    >
+    </Toast>
 </main>
 <style>
     main {
