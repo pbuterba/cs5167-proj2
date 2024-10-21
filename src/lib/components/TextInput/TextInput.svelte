@@ -18,7 +18,7 @@
 
 <div class="container">
 	<div class="entryarea">
-		<input {required} {placeholder} type={type} on:change={handleChange} />
+		<input {required} {placeholder} type={type} value={value} on:change={handleChange} />
 		<div class="labelline">
 			{label}
 		</div>
