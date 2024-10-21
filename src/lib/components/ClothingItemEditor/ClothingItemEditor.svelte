@@ -80,11 +80,12 @@
             </div>
         </div>
         <div id="photo-select">
-            <input id="image-upload" type="file" accept="image/*" bind:value={itemData.img} hidden />
             {#if itemData.img}
                 <img src={itemData.img} alt={itemData.name} width="100" />
             {/if}
-            <button id="image-upload-button" on:click={() => {document.getElementById("image-upload").click()}}>Select photo</button>
+            <div id="photo-link-field">
+                <TextInput label="Image URL" bind:value={itemData.img} />
+            </div>
         </div>
     </div>
     <div id="filters">
@@ -125,8 +126,9 @@
     #main-info {
         display: flex;
         justify-content: space-between;
+        box-sizing: border-box;
     }
-    #main-info > div {
+    #name-and-type {
         width: 40%;
     }
     #filters {
@@ -145,16 +147,13 @@
     #photo-select {
         display: flex;
         justify-content: center;
+        width: 45%;
     }
     #photo-select * {
         margin: auto 0.25vw;
     }
-    #image-upload-button {
-        border-radius: 500px;
-        width: 10vh;
-        height: 10vh;
-        font-weight: bold;
-        background: var(--color-green);
+    #photo-link-field {
+        width: 100%;
     }
     #filter-controls > :global(*) {
         margin: 2vh 0.5vw;
